@@ -1,0 +1,254 @@
+/****************************************************************************
+ * styles.css
+ *
+ * Computer Science 50
+ * Problem Set 7
+ *
+ * Global CSS.
+ ***************************************************************************/
+
+.container
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#top
+{
+    /* centesr contents */
+    text-align: center;
+}
+
+#middle
+{
+    /* center contents */
+    text-align: center;
+    width: 100%;
+}
+
+#bottom
+{
+    /* shrink bottom's font size */
+    font-size: smaller;
+    /* center contents */
+    text-align: center;
+    vertical-align: top;
+}
+
+.people {
+    float: left;
+    width: 35%;
+    display: table;
+}
+
+#userinfo {
+	border: 2px solid #DDDDDD;
+        border-radius: 8px;
+        width: 100%;
+        height: 150px;
+	text-align: left;
+        display: table;
+}
+
+.tavern
+{
+    width: 100%;
+    height: 300px;
+    display: table;
+}
+
+.tables {
+	padding: 5px;
+	border: 2px solid #DDDDDD;
+	border-radius: 8px;
+        width: 45%;
+        height: 300px;
+	text-align: left;
+        display: table;
+        float: left;
+}
+
+.loggedOn
+{
+	border: 2px solid #DDDDDD;
+	border-radius: 8px;
+        width: 18%;
+        display: table;
+        float: right;
+        height: 300px;
+        text-align: left;
+}
+
+#chars {
+	border: 2px solid #DDDDDD;
+	border-radius: 8px;
+        width: 100%;
+        height: 150px;
+	text-align: left;
+        display: block;
+        list-style: none;
+}
+
+#menu
+{
+    text-align: center;
+    width: 65%;
+    float: right;
+    display: table;
+}
+
+#logTop
+{
+    float: top;
+    width: 100%;
+    display: table;
+}
+.newChar
+{
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.information
+{
+    text-align: left;
+    font: 12px helvetica;
+    font-weight: bold;
+    width: 30%;
+    display: table;
+    float: left;
+}
+
+.headers
+{
+    text-align: left;
+    font: 16px helvetica;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+.charSheet
+{
+    width: 100%;
+    height: 300px;
+    display: table;
+}
+
+.charHeader
+{
+	border: 2px solid #DDDDDD;
+	border-radius: 8px;
+        width: 30%;
+        height: 300px;
+	text-align: left;
+        display: table;
+        float: left;
+}
+
+.charSheetData
+{
+	border: 2px solid #DDDDDD;
+	border-radius: 8px;
+        width: 69%;
+        height: 300px;
+	text-align: left;
+        float: left;
+        overflow: auto;
+}
+
+.charSheetHeader
+{
+    text-align: center;
+    font: 20px helvetica;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+.dataHeader
+{
+    text-align: right;
+    font: helvetica;
+    font-weight: bold;
+    font-variant: small-caps;
+    float: left;
+    width: 30%;
+    display: table;
+}
+
+.dataValue
+{
+    float: right;
+    width: 70%;
+    display: table;
+}
+
+.charEntry
+{
+    line-height: 100%;
+}
+
+.charlinks
+{
+    width: 100%;
+    display: list-item;
+}
+
+.charlist
+{
+     height: 100px;
+     overflow: auto;
+}
+
+.charSheetArea
+{
+    width: 97%; 
+    height: 100px;
+    overflow: auto;
+}
+
+.historyArea
+{
+    text-align: justify;
+}
+
+.historyHeader
+{
+    text-align: center;
+    font: 20px helvetica;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+.charButtons
+{
+    display: table;
+}
+
+.charButton
+{
+    display: table-cell;
+}
+
+.charsystem
+{
+    height: 100%;
+    line-height: 100%;
+    font-size: 65%;
+    font-variant: small-caps;
+    vertical-align: center;
+}
+
+.users
+{
+    list-style: none;
+    display: list-item;
+}
+
+.userlist
+{
+    text-align: left;
+    display: block;
+    list-style: none;
+    overflow: auto
+}
