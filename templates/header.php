@@ -17,6 +17,14 @@
         <script src="js/jquery-1.8.2.js"></script>
         <script src="js/bootstrap.js"></script>
         <script src="js/scripts.js"></script>
+<?php
+   if (isset($extraJS))
+      foreach ($extraJS as $file):
+?>
+<script src="<?= $file;?>"></script>
+<?php
+      endforeach;
+?>
 
         <?php if (isset($jquery)) :?>
           <script>

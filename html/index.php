@@ -9,22 +9,6 @@
 
   
   $js_function=<<<FUNCTION
-function whoIsOn() {
-  $.ajax({
-    type: 'GET',
-    url: 'bring_logged.php',
-    timeout: 2000,
-    success: function(data) {
-      $("#userlist").html(data);
-      window.setTimeout(whoIsOn, 2000);
-    },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
-              //      $("#notice_div").html('Timeout contacting server..');
-              //      window.setTimeout(update, 60000);
-    }
-});
-}
-
 $(document).ready(function() {
     whoIsOn();
 });
@@ -36,5 +20,6 @@ FUNCTION;
                         "realname" => $_SESSION["realname"],
                         "username" => $_SESSION["username"],
                         "sheets" => $sheets,
-                        "jquery"=>$js_function])?>
+                        "jquery"=>$js_function,
+                        "extraJS"=>["js/whoIsOn.js"]])?>
 ?>

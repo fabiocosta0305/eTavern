@@ -19,6 +19,7 @@
 
     // wiki library used for character sheet formatting
     require_once("wiky.inc.php");
+    require_once("wikiParser.class.php");
 
     // enable sessions
     session_start();

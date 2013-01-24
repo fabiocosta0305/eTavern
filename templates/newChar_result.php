@@ -1,5 +1,6 @@
 <?
    $wiky=new wiky;
+   $wikiParser=new wikiParser();
 ?>
 <div class="charSheet">
 <div class="charHeader">

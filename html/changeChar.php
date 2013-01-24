@@ -39,8 +39,8 @@
                 // checking if there's already a character with this name and system on user's
                 // sheets
 
-                $sheet=trim($_POST["sheet"])==="Character Sheet(optional)"?"":htmlspecialchars($_POST["sheet"]);
-                $history=trim($_POST["history"])==="History(optional)"?"":htmlspecialchars($_POST["history"]);
+                $sheet=trim($_POST["sheet"])==="Character Sheet(optional)"?"":trim(htmlspecialchars($_POST["sheet"]));
+                $history=trim($_POST["history"])==="History(optional)"?"":trim(htmlspecialchars($_POST["history"]));
 
                 $test=query("update characters set char_name=?,system=?,base_desc=?,sheet=?,history=? where id=?",
                             $charname,$system,$basedesc,$sheet,$history,$_POST["id"]);

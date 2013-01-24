@@ -15,7 +15,7 @@ class wiky {
 
 	public function __construct($analyze=false) {
 		$this->patterns=array(
-			// Headings
+                        // Headings
 			"/^==== (.+?) ====$/m",						// Subsubheading
 			"/^=== (.+?) ===$/m",						// Subheading
 			"/^== (.+?) ==$/m",						// Heading
@@ -56,7 +56,7 @@ class wiky {
 			"/^(?!<li|dd).+(?=(<a|strong|em|img)).+$/mi",			// Ones with breakable elements (TODO: Fix this crap, the li|dd comparison here is just stupid)
 			"/^[^><\n\r]+$/m",						// Ones with no elements
 		);
-		$this->replacements=array(
+                $this->replacements=array(
 			// Headings
 			"<h3>$1</h3>",
 			"<h2>$1</h2>",

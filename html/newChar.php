@@ -27,8 +27,8 @@
         if ($test === false)
             apologize("You already have a character for this system with this name.");
 
-        $sheet=trim($_POST["sheet"])==="Character Sheet(optional)"?"":htmlspecialchars(trim($_POST["sheet"]));
-        $history=trim($_POST["history"])==="History(optional)"?"":htmlspecialchars(trim($_POST["history"]));
+        $sheet=trim($_POST["sheet"])==="Character Sheet(optional)"?"":trim(htmlspecialchars($_POST["sheet"]));
+        $history=trim($_POST["history"])==="History(optional)"?"":trim(htmlspecialchars($_POST["history"]));
 
         $test=query("insert into characters (userid,char_name,system,base_desc,sheet,history) values (?,?,?,?,?
 ,?)",
