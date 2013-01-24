@@ -9,7 +9,18 @@
     }
     else
     {
-        render ("chatWindow.php", ["title" => "Table"]);
+        $js=<<<FUNCTION
+$(document).ready(function() {
+    $("#chatForm").submit(function(){
+            $("#onChatData").append($("#chatEntry").val()+"<br/>");
+            $('#onChatData').animate({scrollTop: $('#onChatData').attr("scrollHeight")}, 500);
+            $('#offChatForm').animate({scrollTop: $('#offChatData').attr("scrollHeight")}, 500);
+            return false;
+    });
+});
+FUNCTION;
+render ("chatWindow.php", ["title" => "Table",
+        "jquery" => $js]);
     }
 
 ?>
