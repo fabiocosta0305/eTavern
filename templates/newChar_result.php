@@ -1,3 +1,6 @@
+<?
+   $wiky=new wiky;
+?>
 <div class="charSheet">
 <div class="charHeader">
 <div class="charSheetHeader">Basic Information</div>
@@ -33,12 +36,12 @@
 <div class="charSheetData">
 <div class="charSheetHeader">Character Sheet</div>
 <div class="charSheetArea">
-<?= $data['sheet'];?>
+  <? echo $wiky->parse($data['sheet']);?>
      </div>
 <div class="charSheetHeader">History</div>
 <div class="charSheetArea">
 <div class="historyArea">
-<?= $data['history'];?>
+  <? echo $wiky->parse($data['history']);?>
 </div>
 </div>
 </div>

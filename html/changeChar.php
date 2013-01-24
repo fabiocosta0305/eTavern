@@ -48,12 +48,6 @@
         if ($test === false)
             apologize("We had a problem with the database! Please try later or contact the administration.");
 
-        $data=explode("\n",$sheet);
-        $sheet=implode("<br/>",$data);
-
-        $data=explode("\n",$history);
-        $history=implode("<br/>",$data);
-
         $data["char_name"]=$charname;
         $data["system"]=$system;
         $data["base_desc"]=$basedesc;

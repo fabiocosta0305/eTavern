@@ -17,6 +17,9 @@
     require("constants.php");
     require("functions.php");
 
+    // wiki library used for character sheet formatting
+    require_once("wiky.inc.php");
+
     // enable sessions
     session_start();
 

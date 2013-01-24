@@ -27,12 +27,7 @@
             $permissions=true;;
         }
 
-        $data=explode("\n",$sheet["sheet"]);
-        $sheet["sheet"]=implode("<br/>",$data);
-
-        $data=explode("\n",$sheet["history"]);
-        $sheet["history"]=implode("<br/>",$data);
-        
+       
         render("newChar_result.php", ["title" => "Character sheet for {$sheet["char_name"]}!",
                                       "data"=>$sheet,
                                       "permissions"=>isset($permissions)?true:false,
