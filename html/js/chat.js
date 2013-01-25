@@ -63,3 +63,24 @@ function takeFirstTimestamp(){
             return true;
         }});
 }
+
+function onChatGet(){
+    $.ajax({
+        type: 'POST',
+        data: {command: 'onChatGet', lastTimestamp: $("input[name=lastOnTimestamp]").val()},
+        url: 'chat.php',
+        timeout: 2000,
+        success: function(data) {
+            var obj=jQuery.parseJSON(data);
+            $("#onChatData").append(obj.chatData);
+            $("input[name=lastOnTimestamp]").val(obj.lastTimestamp);
+            return false;
+        },
+        complete: function(XMLHttpResponse, textStatus)
+        { 
+            return true;
+        },                            
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            return true;
+        }});
+}

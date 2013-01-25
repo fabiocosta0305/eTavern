@@ -95,3 +95,10 @@
     height: 230px;
     width: 100%;
 }
+
+.chatUser
+{
+    font-weight: bold;
+    font-variant: small-caps;
+    color: red;
+}
