@@ -17,7 +17,9 @@
       </div>
     </div>
     <div class="chatBar">
-      <form id="chatForm" action="" method="post">
+      <form id="chatForm">
+        <input id="lastOffTimestamp" name="lastOffTimestamp" type="hidden" value="1"/>
+        <input id="lastOnTimestamp" name="lastOnTimestamp" type="hidden" value="0"/>
         <input style="width:80%;" name="chatEntry" id="chatEntry" placeholder="Type what you want..." type="text"/>
         <button type="submit" class="btn">Speak</button>
       </form>
