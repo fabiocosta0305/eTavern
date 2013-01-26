@@ -46,6 +46,7 @@ function dataSent($data, $user)
     $query="";
     $myData=$data;
     $command="";
+    $parm="";
         
     $dataQuery=query("select UNIX_TIMESTAMP(CURRENT_TIMESTAMP) as last");
 
@@ -77,14 +78,20 @@ function dataSent($data, $user)
                 $info[0]="";
                 $myData=implode(" ",$info);               
                 break;
+            case '/dice':
+                $parm=$info[1];
+                $info[0]=$info[1]="";
+                $myData=rollDice($parm);
+                break;
         }
     }
     else
         $query="insert into onChatLog (userid,text) VALUES (?,?);";
 
-    error_log($query);
     
-    $data=query($query, $user, $myData); 
+    /* $data=query($query, $user, $myData); */
+    $data=query("insert into onChatLog (userid,text,command,parm) VALUES (?,?,?,?)",
+                $user, $myData, $command, $parm); 
    
     return($lastTimestamp);
 }
@@ -113,7 +120,11 @@ function onChatGet($lastTimestamp, $user)
 {
     $chatData="";
     $timestamp=$lastTimestamp;
-    $dataQuery=query("select username,text,unix_timestamp(postedOn) as postedOn,command from user,onChatLog where user.id=onChatLog.userid and unix_timestamp(postedOn) > ? order by postedOn",$lastTimestamp);
+    $dataQuery=query("
+select username,text,unix_timestamp(postedOn) as postedOn,command,parm
+  from user,onChatLog
+ where user.id=onChatLog.userid
+   and unix_timestamp(postedOn) > ? order by postedOn",$lastTimestamp);
 
     if ($dataQuery === false)
         return (false);
@@ -125,6 +136,9 @@ function onChatGet($lastTimestamp, $user)
             case '/me':
                 $chatData.="<div class=chatText><span class=chatUser>".$line['username'].":</span> ".$line['text']."</div>";
                 break;
+            case '/dice':
+                $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']." with a ".$line['text']."</div>";
+                break;                
             default:
                 $chatData.="<div class=chatDesc>".$line['text']."</div>";
                 break;
@@ -135,6 +149,66 @@ function onChatGet($lastTimestamp, $user)
     $data2send=["chatData"=>$chatData,"lastTimestamp"=>$timestamp];
 
     return(json_encode($data2send));
+}
+
+function rollDice($die)
+{
+   
+    $data=[];
+    $dicePool=[];
+    $result=0;
+    $roll="";
+    
+    $numberOfMatches=preg_match("/^([0-9]+)?d([0-9fF]+)([+-][0-9]+)?$/",$die,$data);
+
+    error_log(print_r($data));
+    
+    if ($numberOfMatches == 0)
+        return ("Error: entry $die not valid");
+
+    $numberOfMatches=count($data);
+
+    if(!isset($data[1]) || empty($data[1]))
+        $data[0]=1;
+
+    error_log(implode("|", $data));
+    
+    if (gettype($data[1])!="integer")
+    {
+        $dices=1;
+        $diceFace=$data[1];
+    }
+    else
+    {
+        $dices=$data[1];
+        $diceFace=$data[3];
+    }
+
+    for ($i=0; $i < $dices; $i++)
+    {
+        srand();
+
+        if (gettype($diceFace)=="integer")
+            $rolledDice=mt_rand(1,$diceFace);
+        else
+            $rolledDice=mt_rand(-1,1);
+
+        $dicePool[]=$rolledDice;
+        
+        $result+=$rolledDice;
+    }
+
+    $roll=implode(", ",$dicePool);
+
+    $roll.=" = $result";
+
+    if ($numberOfMatches==4)
+    {
+        $result+=$data[3];
+        $roll=$roll . sprintf(" +%d = %d",$data[3],$result);
+    }
+
+    return $roll;
 }
 
 ?>
