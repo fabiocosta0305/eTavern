@@ -158,42 +158,37 @@ function rollDice($die)
     $dicePool=[];
     $result=0;
     $roll="";
+    $diceMin=1;
     
     $numberOfMatches=preg_match("/^([0-9]+)?d([0-9fF]+)([+-][0-9]+)?$/",$die,$data);
-
-    error_log(print_r($data));
-    
+   
     if ($numberOfMatches == 0)
         return ("Error: entry $die not valid");
 
-    $numberOfMatches=count($data);
+    if(!isset($data[1]) || empty($data[1]) || $data[1]==="")
+        $data[1]=1;    
 
-    if(!isset($data[1]) || empty($data[1]))
-        $data[0]=1;
+    $dices=$data[1];
+    $diceFace=$data[2];
+    $diceMax=$data[2];
 
-    error_log(implode("|", $data));
-    
-    if (gettype($data[1])!="integer")
+    if (strtoupper($diceFace)==="F")
     {
-        $dices=1;
-        $diceFace=$data[1];
-    }
-    else
-    {
-        $dices=$data[1];
-        $diceFace=$data[3];
+         $diceMin=-1;
+         $diceMax=1;
     }
 
     for ($i=0; $i < $dices; $i++)
     {
-        srand();
+        /* if (is_string($diceFace)) */
+        /* { */
+        /*     if (strtoupper($diceFace)=="F") */
+        /*         $rolledDice=mt_rand(-1,1); */
+        /* } */
+        /* else */
+        $rolledDice=mt_rand($diceMin,$diceMax);
 
-        if (gettype($diceFace)=="integer")
-            $rolledDice=mt_rand(1,$diceFace);
-        else
-            $rolledDice=mt_rand(-1,1);
-
-        $dicePool[]=$rolledDice;
+        $dicePool[]=$diceFace=="F"?sprintf("%+d",$rolledDice):$rolledDice;
         
         $result+=$rolledDice;
     }
@@ -202,10 +197,15 @@ function rollDice($die)
 
     $roll.=" = $result";
 
-    if ($numberOfMatches==4)
+    if (isset($data[3]))
     {
         $result+=$data[3];
-        $roll=$roll . sprintf(" +%d = %d",$data[3],$result);
+        if ($data[3]<0)
+            $signal='-';
+        else
+            $signal='+';
+            
+        $roll=$roll . sprintf(" %s %d = %d",$signal, abs($data[3]),$result);
     }
 
     return $roll;
