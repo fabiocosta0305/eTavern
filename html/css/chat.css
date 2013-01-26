@@ -109,3 +109,14 @@
     font-variant: small-caps;
     color: blue;
 }
+
+.secretChatText
+{
+    font-style: italic;
+    color:green;
+}
+
+.secretChatUser
+{
+    font-weight: bold;
+}
