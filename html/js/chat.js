@@ -32,6 +32,9 @@ function offChatGet(){
             var obj=jQuery.parseJSON(data);
             $("#offChatData").append(obj.chatData);
             $("input[name=lastOffTimestamp]").val(obj.lastTimestamp);
+            $("#offChatData").animate({ scrollTop: $('#offChatData').height() }, 300);
+            //$("#offChatData").animate({ scrollTop: $("#offChatData").attr("scrollHeight")}, 3000);
+            
             return false;
         },
         complete: function(XMLHttpResponse, textStatus)
@@ -74,6 +77,9 @@ function onChatGet(){
             var obj=jQuery.parseJSON(data);
             $("#onChatData").append(obj.chatData);
             $("input[name=lastOnTimestamp]").val(obj.lastTimestamp);
+            //$('#onChatData').scrollTop($('#onChatData').height());
+            $("#onChatData").animate({ scrollTop: $('#onChatData').height() }, 300);
+            // $("#onChatGet").animate({ scrollTop: $("#onChatGet").prop("scrollHeight") - $("#onChatGet").height() }, 300);
             return false;
         },
         complete: function(XMLHttpResponse, textStatus)

@@ -1,5 +1,7 @@
 <?php
 
+require_once("../includes/diceRoller.php");
+
     // configuration
     require("../includes/config.php"); 
 
@@ -69,25 +71,49 @@ function dataSent($data, $user)
         switch($command)
         {
             case '/off':
-                $query="insert into offChatLog (userid,text) VALUES (?,?);";
                 $info[0]="";
                 $myData=implode(" ",$info);
+                $data=query("insert into offChatLog (userid,text) VALUES (?,?)",
+                            $user, $myData); 
                 break;
+
             case '/me':
-                $query="insert into onChatLog (userid,text,command) VALUES (?,?,'$command');";
                 $info[0]="";
                 $myData=implode(" ",$info);               
                 break;
+                
+            case '/defaultDice':
+                $info[0]="";
+                $myData=implode(" ",$info);
+
+                $parm=$info[1];
+
+                $numberOfMatches=preg_match("/^([0-9]+)?d([0-9fF]+)([+-][0-9]+)?$/",$info[1]);
+                
+                if ($numberOfMatches == 0)
+                    $myData="Error: entry $die not valid";
+                else
+                {
+                    $_SESSION['defaultDice']=$info[1];
+                    $myData="set default dice to ".$info[1];
+                }
+                break;
+
             case '/dice':
                 $parm=$info[1];
                 $info[0]=$info[1]="";
+                          
+                if (!isset($parm) || empty($parm))
+                    if (isset($_SESSION['defaultDice'])) $parm=$_SESSION['defaultDice'];
+                
                 $myData=rollDice($parm);
                 break;
+
+            default:
+                $myData="had tried a invalid command:".$command;
+                $command="/error";
         }
     }
-    else
-        $query="insert into onChatLog (userid,text) VALUES (?,?);";
-
     
     /* $data=query($query, $user, $myData); */
     $data=query("insert into onChatLog (userid,text,command,parm) VALUES (?,?,?,?)",
@@ -133,15 +159,20 @@ select username,text,unix_timestamp(postedOn) as postedOn,command,parm
     {
         switch($line['command'])
         {
-            case '/me':
-                $chatData.="<div class=chatText><span class=chatUser>".$line['username'].":</span> ".$line['text']."</div>";
+            case '/off':
                 break;
             case '/dice':
                 $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']." with a ".$line['text']."</div>";
-                break;                
+                break;
+            case '/defaultDice':
+            case '/me':
+            case '/error':
+                $chatData.="<div class=chatText><span class=chatUser>".$line['username'].":</span> ".$line['text']."</div>";
+                break;
             default:
                 $chatData.="<div class=chatDesc>".$line['text']."</div>";
                 break;
+                
         }
         if ($line['postedOn'] > $timestamp) $timestamp=$line['postedOn'];
     }
@@ -149,66 +180,6 @@ select username,text,unix_timestamp(postedOn) as postedOn,command,parm
     $data2send=["chatData"=>$chatData,"lastTimestamp"=>$timestamp];
 
     return(json_encode($data2send));
-}
-
-function rollDice($die)
-{
-   
-    $data=[];
-    $dicePool=[];
-    $result=0;
-    $roll="";
-    $diceMin=1;
-    
-    $numberOfMatches=preg_match("/^([0-9]+)?d([0-9fF]+)([+-][0-9]+)?$/",$die,$data);
-   
-    if ($numberOfMatches == 0)
-        return ("Error: entry $die not valid");
-
-    if(!isset($data[1]) || empty($data[1]) || $data[1]==="")
-        $data[1]=1;    
-
-    $dices=$data[1];
-    $diceFace=$data[2];
-    $diceMax=$data[2];
-
-    if (strtoupper($diceFace)==="F")
-    {
-         $diceMin=-1;
-         $diceMax=1;
-    }
-
-    for ($i=0; $i < $dices; $i++)
-    {
-        /* if (is_string($diceFace)) */
-        /* { */
-        /*     if (strtoupper($diceFace)=="F") */
-        /*         $rolledDice=mt_rand(-1,1); */
-        /* } */
-        /* else */
-        $rolledDice=mt_rand($diceMin,$diceMax);
-
-        $dicePool[]=$diceFace=="F"?sprintf("%+d",$rolledDice):$rolledDice;
-        
-        $result+=$rolledDice;
-    }
-
-    $roll=implode(", ",$dicePool);
-
-    $roll.=" = $result";
-
-    if (isset($data[3]))
-    {
-        $result+=$data[3];
-        if ($data[3]<0)
-            $signal='-';
-        else
-            $signal='+';
-            
-        $roll=$roll . sprintf(" %s %d = %d",$signal, abs($data[3]),$result);
-    }
-
-    return $roll;
 }
 
 ?>

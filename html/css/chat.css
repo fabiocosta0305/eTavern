@@ -102,3 +102,10 @@
     font-variant: small-caps;
     color: red;
 }
+
+.chatInfo
+{
+    font-weight: bold;
+    font-variant: small-caps;
+    color: blue;
+}
