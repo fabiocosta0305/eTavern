@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 24/01/2013 às 13:39:32
+-- Tempo de Geração: 27/01/2013 às 10:12:45
 -- Versão do Servidor: 5.5.29
 -- Versão do PHP: 5.4.10
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de Dados: `etavern`
 --
+CREATE DATABASE `etavern` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `etavern`;
 
 -- --------------------------------------------------------
 
@@ -97,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 --
 
 INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
-(1, '2013-01-24 18:02:40');
+(2, '2013-01-26 21:35:21');
 
 -- --------------------------------------------------------
 
@@ -124,6 +126,7 @@ CREATE TABLE IF NOT EXISTS `onChatLog` (
   `userid` bigint(20) NOT NULL,
   `postedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `command` varchar(255) DEFAULT NULL,
+  `parm` varchar(255) DEFAULT NULL,
   `text` text NOT NULL,
   KEY `postedOn` (`postedOn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 24/01/2013 às 13:40:33
+-- Tempo de Geração: 27/01/2013 às 10:12:45
 -- Versão do Servidor: 5.5.29
 -- Versão do PHP: 5.4.10
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de Dados: `etavern`
 --
+CREATE DATABASE `etavern` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `etavern`;
 
 -- --------------------------------------------------------
 
@@ -37,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`char_name`,`system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+
 
 -- --------------------------------------------------------
 
@@ -64,6 +67,13 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Extraindo dados da tabela `loggedOn`
+--
+
+INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
+(2, '2013-01-26 21:35:21');
+
 -- --------------------------------------------------------
 
 --
@@ -89,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `onChatLog` (
   `userid` bigint(20) NOT NULL,
   `postedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `command` varchar(255) DEFAULT NULL,
+  `parm` varchar(255) DEFAULT NULL,
   `text` text NOT NULL,
   KEY `postedOn` (`postedOn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -114,6 +125,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=13 ;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
