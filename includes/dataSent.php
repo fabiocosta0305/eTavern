@@ -25,24 +25,31 @@ function dataSent($data, $user)
         $info[0]=" ";
         $myData=implode(" ",$info);
         
-        switch($command)
+        switch(strtoupper($command))
         {
-            case '/off':
+            case '/OFF':
                 $info[0]="";
                 $myData=implode(" ",$info);
                 $data=query("insert into offChatLog (userid,text) VALUES (?,?)",
                             $user, $myData); 
                 break;
 
-            case '/me':
+            case '/ME':
                 $info[0]="";
                 $myData=implode(" ",$info);               
                 break;
                 
-            case '/defaultDice':
+            case '/DEFAULTDICE':
                 $info[0]="";
                 $myData=implode(" ",$info);
 
+                if(!(count($info)>1))
+                {
+                    unset($_SESSION['defaultDice']);
+                    $myData="unset the default dice";
+                    break;
+                }
+                
                 $parm=$info[1];
 
                 $numberOfMatches=preg_match("/^([0-9]+)?d([0-9fF]+)([+-][0-9]+)?$/",$info[1]);
@@ -56,7 +63,7 @@ function dataSent($data, $user)
                 }
                 break;
 
-            case '/secret':
+            case '/SECRET':
                 if (count($info)!==3)
                 {
                     $command="/error";
@@ -85,25 +92,38 @@ function dataSent($data, $user)
                 }               
                 break;
 
-            case '/fakeDice':
-            case '/secretDice':
-            case '/dice':                        
-                if (!isset($parm) || empty($parm))
-                {
-                    if (isset($_SESSION['defaultDice'])) $parm=$_SESSION['defaultDice'];
-                }
-                else
+            case '/FAKEDICE':
+            case '/SECRETDICE':
+            case '/DICE':
+                
+                if (count($info)>1)
                 {
                     $parm=$info[1];
                     $info[0]=$info[1]="";
                 }
+                else if (isset($_SESSION['defaultDice'])) $parm=$_SESSION['defaultDice'];
+                else
+                {
+                    $myData="tried a dice roll without a /defaultDice or giving a dice:";
+                    $command="/error";
+                    break;
+                }
+            
+                error_log($parm);
                
                 $myData=rollDice($parm);
                 break;
 
+            case '/END':
+            case '/KILL':
+            case '/PART':
+                return json_encode(["end"=>true,"lastTimestamp"=>$lastTimestamp]);
+                break;
+                
             default:
                 $myData="had tried a invalid command:".$command;
                 $command="/error";
+
         }
     }
     
@@ -111,7 +131,7 @@ function dataSent($data, $user)
     $data=query("insert into onChatLog (userid,text,command,parm) VALUES (?,?,?,?)",
                 $user, $myData, $command, $parm); 
    
-    return($lastTimestamp);
+    return json_encode(["end"=>false,"lastTimestamp"=>$lastTimestamp]);
 }
 
 ?>

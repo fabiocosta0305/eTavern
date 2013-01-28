@@ -6,7 +6,14 @@ function sendChat(){
         timeout: 2000,
 
         success: function(data) {
+            var obj=jQuery.parseJSON(data);
             $("#chatEntry").val("");
+
+            if (obj.end)
+            {
+                $(window.location).attr('href', '/');
+            }
+           
             return false;
         },
          

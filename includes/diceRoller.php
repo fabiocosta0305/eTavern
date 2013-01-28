@@ -8,7 +8,7 @@ function rollDice($die)
     $roll="";
     $diceMin=1;
     
-    $numberOfMatches=preg_match("/^([0-9]+)?d([0-9fF]+)([+-][0-9]+)?$/",$die,$data);
+    $numberOfMatches=preg_match("/^([0-9]+)?d([0-9]+|f)([+-][0-9]+)?$/i",$die,$data);
    
     if ($numberOfMatches == 0)
         return ("Error: entry $die not valid");
