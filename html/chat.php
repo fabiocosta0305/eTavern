@@ -91,7 +91,9 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
                 break;
 
             case '/fakeDice':
-                $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']."</div>";
+                error_log("Aqui!");
+                $rolled=($line['userid']===$_SESSION['id'])?'fake-rolled':'rolled';
+                $chatData.="<div class=chatInfo>".$line['username']." $rolled ".$line['parm']."</div>";
                 break;
                 
             case '/dice':
@@ -99,8 +101,18 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
                 break;
 
             case '/secret':
-                if ($line['parm']==$_SESSION['id'])
-                    $chatData.="<div class=secretChatText><span class=secretChatUser>".$line['username']." (secret):</span> ".$line['text']."</div>";
+                if ($line['userid']===$_SESSION['id'])
+                {
+                    $data2=query("select username from user where id=?",$line['parm']);
+
+                    $row=$data2[0];
+                    
+                    $chatData.="<div class=secretChatText><span class=secretChatUser>".$line['username']." (secret to {$row['username']}):</span> ".$line['text']."</div>";
+                }
+                else if ($line['parm']==$_SESSION['id'])
+                {
+                    $chatData.="<div class=secretChatText><span class=secretChatUser>".$line['username']." (secret to you):</span> ".$line['text']."</div>";
+                }
                 break;
                 
             case '/defaultDice':

@@ -87,13 +87,17 @@ function dataSent($data, $user)
 
             case '/fakeDice':
             case '/secretDice':
-            case '/dice':
-                $parm=$info[1];
-                $info[0]=$info[1]="";
-                          
+            case '/dice':                        
                 if (!isset($parm) || empty($parm))
+                {
                     if (isset($_SESSION['defaultDice'])) $parm=$_SESSION['defaultDice'];
-                
+                }
+                else
+                {
+                    $parm=$info[1];
+                    $info[0]=$info[1]="";
+                }
+               
                 $myData=rollDice($parm);
                 break;
 
