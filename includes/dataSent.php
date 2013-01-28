@@ -1,6 +1,6 @@
 <?php
 
-function dataSent($data, $user)
+function dataSent($data, $user, $advid)
 {
     $query="";
     $myData=$data;
@@ -30,8 +30,8 @@ function dataSent($data, $user)
             case '/OFF':
                 $info[0]="";
                 $myData=implode(" ",$info);
-                $data=query("insert into offChatLog (userid,text) VALUES (?,?)",
-                            $user, $myData); 
+                $data=query("insert into offChatLog (userid,text,advid) VALUES (?,?,?)",
+                            $user, $myData,$advid); 
                 break;
 
             case '/ME':
@@ -128,8 +128,8 @@ function dataSent($data, $user)
     }
     
     /* $data=query($query, $user, $myData); */
-    $data=query("insert into onChatLog (userid,text,command,parm) VALUES (?,?,?,?)",
-                $user, $myData, $command, $parm); 
+    $data=query("insert into onChatLog (userid,text,command,parm,advid) VALUES (?,?,?,?,?)",
+                $user, $myData, $command, $parm, $advid); 
    
     return json_encode(["end"=>false,"lastTimestamp"=>$lastTimestamp]);
 }

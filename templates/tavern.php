@@ -39,6 +39,11 @@
   <div class="info">
     <div class="tables">
       <p class="headers">Tables</p>
+      <div id="Tables">
+      </div>
+      <div class="newChar">
+        <a href="newTable.php">Create New Table</a>
+      </div>
     </div>
     <div class="loggedOn">
       <p class="headers">Who is on?</p>

@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 27/01/2013 às 10:12:45
--- Versão do Servidor: 5.5.29
+-- Tempo de Geração: 28/01/2013 às 13:43:41
+-- Versão do Servidor: 5.5.28
 -- Versão do PHP: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -25,6 +25,22 @@ USE `etavern`;
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `adventure`
+--
+
+CREATE TABLE IF NOT EXISTS `adventure` (
+  `advid` varchar(40) NOT NULL,
+  `masterid` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `system` varchar(255) NOT NULL,
+  `description` text,
+  `defaultDice` varchar(10) DEFAULT NULL,
+  UNIQUE KEY `advid` (`advid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `characters`
 --
 
@@ -39,7 +55,6 @@ CREATE TABLE IF NOT EXISTS `characters` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`char_name`,`system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
-
 
 -- --------------------------------------------------------
 
@@ -67,13 +82,6 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `loggedOn`
---
-
-INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
-(2, '2013-01-26 21:35:21');
-
 -- --------------------------------------------------------
 
 --
@@ -81,7 +89,7 @@ INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `offChatLog` (
-  `advId` bigint(20) DEFAULT NULL,
+  `advid` varchar(40) DEFAULT NULL,
   `userid` bigint(20) NOT NULL,
   `postedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `text` text NOT NULL,
@@ -95,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `offChatLog` (
 --
 
 CREATE TABLE IF NOT EXISTS `onChatLog` (
-  `advId` bigint(20) DEFAULT NULL,
+  `advId` varchar(40) DEFAULT NULL,
   `userid` bigint(20) NOT NULL,
   `postedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `command` varchar(255) DEFAULT NULL,
@@ -125,7 +133,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=13 ;
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

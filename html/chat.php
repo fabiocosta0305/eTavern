@@ -11,14 +11,14 @@ require_once("../includes/dataSent.php");
         switch ($_POST['command'])
         {
             case 'dataSent':
-                echo dataSent($_POST['info'], $_SESSION['id']);
+                echo dataSent($_POST['info'], $_SESSION['id'], $_SESSION['advid']);
                 break;
             case 'offChatGet':
-                $data = offChatGet($_POST['lastTimestamp'], $_SESSION['id']);
+                $data = offChatGet($_POST['lastTimestamp'], $_SESSION['id'], $_SESSION['advid']);
                 echo $data;
                 break;
             case 'onChatGet':
-                $data = onChatGet($_POST['lastTimestamp'], $_SESSION['id']);
+                $data = onChatGet($_POST['lastTimestamp'], $_SESSION['id'], $_SESSION['advid']);
                 echo $data;
                 break;
             case 'firstTimestamp':
@@ -43,15 +43,26 @@ render ("chatWindow.php", ["title" => "Table",
                            "extraJS"=> ["js/chat.js"]]);
     }
 
-function offChatGet($lastTimestamp, $user)
+
+
+function offChatGet($lastTimestamp, $user, $advid)
 {
     $chatData="";
     $timestamp=$lastTimestamp;
-    $dataQuery=query("select username,text,unix_timestamp(postedOn) as postedOn from user,offChatLog where user.id=offChatLog.userid and unix_timestamp(postedOn) > ? order by postedOn ",$lastTimestamp);
+    $dataQuery=query("
+select username,text,unix_timestamp(postedOn) as postedOn
+  from user,offChatLog,adventure
+ where user.id=offChatLog.userid
+  and adventure.advid=offChatLog.advid
+  and unix_timestamp(postedOn) > ?
+  and adventure.advid=?
+order by postedOn",$lastTimestamp,$advid);
 
     if ($dataQuery === false)
         return (false);
-      
+
+    error_log("Aqui!");
+    
     foreach($dataQuery as $data)
     {
         $chatData.="<div class=chatText><span class=chatUser>".$data['username'].":</span> ".$data['text']."</div>";
@@ -63,15 +74,18 @@ function offChatGet($lastTimestamp, $user)
     return(json_encode($data2send));
 }
 
-function onChatGet($lastTimestamp, $user)
+function onChatGet($lastTimestamp, $user, $advid)
 {
     $chatData="";
     $timestamp=$lastTimestamp;
     $dataQuery=query("
 select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
-  from user,onChatLog
+  from user,onChatLog,adventure
  where user.id=onChatLog.userid
-   and unix_timestamp(postedOn) > ? order by postedOn",$lastTimestamp);
+   and unix_timestamp(postedOn) > ?
+   and adventure.advid=onChatLog.advid
+   and adventure.advid=?
+ order by postedOn",$lastTimestamp,$advid);
 
     if ($dataQuery === false)
         return (false);

@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 27/01/2013 às 10:12:45
--- Versão do Servidor: 5.5.29
+-- Tempo de Geração: 28/01/2013 às 13:43:20
+-- Versão do Servidor: 5.5.28
 -- Versão do PHP: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -19,8 +19,33 @@ SET time_zone = "+00:00";
 --
 -- Banco de Dados: `etavern`
 --
--- CREATE DATABASE `etavern` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE `etavern` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `etavern`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `adventure`
+--
+
+CREATE TABLE IF NOT EXISTS `adventure` (
+  `advid` varchar(40) NOT NULL,
+  `masterid` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `system` varchar(255) NOT NULL,
+  `description` text,
+  `defaultDice` varchar(10) DEFAULT NULL,
+  UNIQUE KEY `advid` (`advid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `adventure`
+--
+
+INSERT INTO `adventure` (`advid`, `masterid`, `name`, `system`, `description`, `defaultDice`) VALUES
+('etavern_5106bfae28a4a3.29633820', 1, 'Teste', 'Teste', NULL, '4df'),
+('etavern_5106c0033842c0.19193949', 1, 'Teste', 'Teste', 'Teste', '4df'),
+('etavern_5106c3cd825f73.64598678', 1, 'Test', 'Tes', '\r\n          ', '4df');
 
 -- --------------------------------------------------------
 
@@ -99,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 --
 
 INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
-(2, '2013-01-26 21:35:21');
+(1, '2013-01-28 18:43:19');
 
 -- --------------------------------------------------------
 
@@ -108,7 +133,7 @@ INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `offChatLog` (
-  `advId` bigint(20) DEFAULT NULL,
+  `advid` varchar(40) DEFAULT NULL,
   `userid` bigint(20) NOT NULL,
   `postedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `text` text NOT NULL,
@@ -122,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `offChatLog` (
 --
 
 CREATE TABLE IF NOT EXISTS `onChatLog` (
-  `advId` bigint(20) DEFAULT NULL,
+  `advId` varchar(40) DEFAULT NULL,
   `userid` bigint(20) NOT NULL,
   `postedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `command` varchar(255) DEFAULT NULL,
