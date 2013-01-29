@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 28/01/2013 às 13:43:20
+-- Tempo de Geração: 28/01/2013 às 13:43:26
 -- Versão do Servidor: 5.5.28
 -- Versão do PHP: 5.4.10
 
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 --
 
 INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
-(1, '2013-01-28 18:43:19');
+(1, '2013-01-28 18:43:25');
 
 -- --------------------------------------------------------
 

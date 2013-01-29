@@ -13,3 +13,19 @@
 /secret <user> <secret_message> - send a secret message on on-action chatroom for just a character
 
 /end, /kill or /part - exits the adventure (the master uses to shut the table off)
+
+TODO:
+
+/whois <player> - shows the character the player is using
+
+/whoplays <char> - shows the player who is using the character
+
+/sheet <player> - shows the character sheet of a char
+
+/party - shows the info of the party
+
+/condition <player> <condition> <desc> - put a condition over a character
+
+/conditions <player> - list the conditions the player's char has
+
+/removeCondition <player> <condition> - remove the condition put over a character

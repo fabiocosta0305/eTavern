@@ -132,7 +132,8 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
             case '/DEFAULTDICE':
             case '/ME':
             case '/ERROR':
-                $chatData.="<div class=chatText><span class=chatUser>".$line['username'].":</span> ".$line['text']."</div>";
+                if ($_SESSION['id']===$line['userid'])
+                    $chatData.="<div class=chatText><span class=chatUser>".$line['username'].":</span> ".$line['text']."</div>";
                 break;
             default:
                 $chatData.="<div class=chatDesc>".$line['text']."</div>";

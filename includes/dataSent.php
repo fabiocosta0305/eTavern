@@ -114,9 +114,24 @@ function dataSent($data, $user, $advid)
                 $myData=rollDice($parm);
                 break;
 
+            case '/WHOIS':
+                if (count($info)>1)
+                {
+                    $parm=$info[1];
+                    $info[0]=$info[1]="";
+                }
+                else
+                {
+                    $myData="no user given";
+                    $command="/error";
+                    break;
+                }
+
             case '/END':
             case '/KILL':
             case '/PART':
+                $data=query("insert into onChatLog (userid,text,command,parm,advid) VALUES (?,?,?,?,?)",
+                            $user, "$user parted from the adventure!", $command, $parm, $advid); 
                 return json_encode(["end"=>true,"lastTimestamp"=>$lastTimestamp]);
                 break;
                 

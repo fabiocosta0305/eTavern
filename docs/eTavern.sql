@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 28/01/2013 às 13:43:41
+-- Tempo de Geração: 29/01/2013 às 13:48:37
 -- Versão do Servidor: 5.5.28
 -- Versão do PHP: 5.4.10
 
@@ -28,6 +28,7 @@ USE `etavern`;
 -- Estrutura da tabela `adventure`
 --
 
+DROP TABLE IF EXISTS `adventure`;
 CREATE TABLE IF NOT EXISTS `adventure` (
   `advid` varchar(40) NOT NULL,
   `masterid` bigint(20) NOT NULL,
@@ -35,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `adventure` (
   `system` varchar(255) NOT NULL,
   `description` text,
   `defaultDice` varchar(10) DEFAULT NULL,
+  `opened` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `ended` tinyint(1) DEFAULT '0',
   UNIQUE KEY `advid` (`advid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -44,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `adventure` (
 -- Estrutura da tabela `characters`
 --
 
+DROP TABLE IF EXISTS `characters`;
 CREATE TABLE IF NOT EXISTS `characters` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) NOT NULL,
@@ -54,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `history` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`char_name`,`system`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
 
 -- --------------------------------------------------------
 
@@ -62,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
 -- Estrutura da tabela `conditions`
 --
 
+DROP TABLE IF EXISTS `conditions`;
 CREATE TABLE IF NOT EXISTS `conditions` (
   `charid` bigint(20) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -75,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `conditions` (
 -- Estrutura da tabela `loggedOn`
 --
 
+DROP TABLE IF EXISTS `loggedOn`;
 CREATE TABLE IF NOT EXISTS `loggedOn` (
   `id` int(11) NOT NULL,
   `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -88,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 -- Estrutura da tabela `offChatLog`
 --
 
+DROP TABLE IF EXISTS `offChatLog`;
 CREATE TABLE IF NOT EXISTS `offChatLog` (
   `advid` varchar(40) DEFAULT NULL,
   `userid` bigint(20) NOT NULL,
@@ -102,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `offChatLog` (
 -- Estrutura da tabela `onChatLog`
 --
 
+DROP TABLE IF EXISTS `onChatLog`;
 CREATE TABLE IF NOT EXISTS `onChatLog` (
   `advId` varchar(40) DEFAULT NULL,
   `userid` bigint(20) NOT NULL,
@@ -115,9 +123,24 @@ CREATE TABLE IF NOT EXISTS `onChatLog` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `table`
+--
+
+DROP TABLE IF EXISTS `table`;
+CREATE TABLE IF NOT EXISTS `table` (
+  `advId` varchar(40) NOT NULL,
+  `userid` bigint(20) NOT NULL,
+  `charid` bigint(20) NOT NULL,
+  KEY `advId` (`advId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) COLLATE utf8_bin NOT NULL,

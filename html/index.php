@@ -11,6 +11,7 @@
   $js_function=<<<FUNCTION
 $(document).ready(function() {
     whoIsOn();
+    open_tables();
 });
 FUNCTION;
 

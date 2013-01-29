@@ -32,7 +32,7 @@
 
         // create info for the table and registering it into the system
 
-        $sql=query("insert into adventure values (?,?,?,?,?,?)",
+        $sql=query("insert into adventure values (?,?,?,?,?,?,DEFAULT,DEFAULT)",
                    $advid,$_SESSION['id'],$_POST['name'],$_POST['system'],$_POST['history'],$_POST['defaultDice']);
 
         if ($sql===false)
