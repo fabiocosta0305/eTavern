@@ -137,7 +137,7 @@ function dataSent($data, $user, $advid)
                 
                 return json_encode(["end"=>true,"lastTimestamp"=>$lastTimestamp]);
                 break;
-                
+
             default:
                 $myData="had tried a invalid command:".$command;
                 $command="/error";
