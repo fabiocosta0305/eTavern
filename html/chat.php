@@ -32,10 +32,16 @@ require_once("../includes/dataSent.php");
     {
         $js=<<<FUNCTION
 $(document).ready(function() {
+        
         takeFirstTimestamp();
+        offChatGet();
+        onChatGet();
+        whoIsOnTable();
+
         $("#chatForm").submit(sendChat);
         setInterval(offChatGet, 2000);
         setInterval(onChatGet, 2000);
+        setInterval(whoIsOnTable, 2000);
     });
 FUNCTION;
 render ("chatWindow.php", ["title" => "Table",
@@ -114,6 +120,21 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
                 $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']." with a ".$line['text']."</div>";
                 break;
 
+            case '/PART':
+            case '/KILL':
+            case '/END':
+               
+                $data2=query("select username,  realname, char_name FROM user, adv_table, characters
+WHERE user.id = adv_table.userid
+AND characters.id = adv_table.charid and user.id=?",$line['userid']);
+                $row=$data2[0];
+
+
+                $chatData.="<div class=info>{$row['realname']} ({$row['username']
+}), player of {$row['char_name']} left the party and the adventure </div>";
+
+                break;
+
             case '/SECRET':
                 if ($line['userid']===$_SESSION['id'])
                 {
@@ -146,6 +167,36 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
     $data2send=["chatData"=>$chatData,"lastTimestamp"=>$timestamp];
 
     return(json_encode($data2send));
+}
+
+function part_table()
+{
+
+    $advid=$_SESSION['advid'];
+    
+    $query=query("update adv_table set stillOn=false where advid=? and userid=?",$_SESSION['advid'],$_SESSION['id']);
+
+    if ($query === false)
+        return false;
+    
+    unset($_SESSION['advid']);
+    unset($_SESSION['defaultDice']);
+    unset($_SESSION['charid']);
+
+    $data=query("select * from adv_table where advid=? and stillOn",$advid);
+
+    if ($data === false)
+        return false;
+
+    if (count($data) === 0)
+    {
+        $query=query("update adventure set ended=1 where advid=?",$advid);
+        
+        if ($query === false)
+            return false;
+    }
+
+    
 }
 
 ?>

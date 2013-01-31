@@ -97,3 +97,19 @@ function onChatGet(){
             return true;
         }});
 }
+
+function whoIsOnTable() {
+  $.ajax({
+    type: 'GET',
+    url: 'bring_party.php',
+    timeout: 2000,
+    success: function(data) {
+      $("#people").html(data);
+      window.setTimeout(theParty, 2000);
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+              //      $("#notice_div").html('Timeout contacting server..');
+              //      window.setTimeout(update, 60000);
+    }
+  });
+}

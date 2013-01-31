@@ -38,6 +38,12 @@
         if ($sql===false)
             apologize("We had a problem with the database. Please try again later!");
 
+        $sql=query("insert into adv_table values (?,?,0,default)",
+                   $advid,$_SESSION['id']);
+
+        if ($sql===false)
+            apologize("We had a problem with the database. Please try again later!");
+
         // everything okay, define some variables redirects to the chat php
 
         $_SESSION['advid']=$advid;

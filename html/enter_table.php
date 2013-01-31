@@ -3,8 +3,28 @@
 // configuration
 require("../includes/config.php"); 
 
-// if came from a link
-if ($_SERVER["REQUEST_METHOD"] == "GET")
+if (isset($_SESSION['advid']))
+{
+    // this is a way to warrant that people can enter back on an adventure if the table was not ended
+    
+    $query=query("select * from adventure where advid=? and not ended",$_SESSION['advid']);
+    
+    if ($query === false)
+        apologize("We had some problem on the database! Please wait or contact the administrator!");
+    
+    if ($query === 0)
+    {
+        
+        part_table();
+        
+        redirect("/");
+    }
+    else
+        redirect("/chat.php");
+    
+    
+}// if came from a link
+elseif ($_SERVER["REQUEST_METHOD"] == "GET")
 {
     $binder=[];
     // If no adventure id sent, apologize
@@ -45,23 +65,26 @@ select adventure.*, user.username as masterUserName, user.realname as masterReal
 
     render("choose_char.php", ["title" => "choose you character!",
                                   "table"=>$advdata,
-                                  "binder"=>$binder]);
-
-    
+                                  "binder"=>$binder]);    
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     if ($_POST['characters']===0)
         apologize("You need to choose a character!");
 
+    // registering the character on the table
+    
+    $sql=query("insert into adv_table values (?,?,?,DEFAULT)", $_POST['advid'],$_SESSION['id'],$_POST['characters']);
+
+    error_log($_POST['characters']);
+    
     $_SESSION['advid']=$_POST['advid'];
     $_SESSION['defaultDice']=$_POST['defaultDice'];
     $_SESSION['charid']=$_POST['characters'];
-
+    
     redirect("/chat.php");
-
+    
 }
 else
-    // otherwise, redirects back to the tavern
     redirect("/");
 ?>

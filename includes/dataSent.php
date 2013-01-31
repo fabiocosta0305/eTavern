@@ -131,7 +131,10 @@ function dataSent($data, $user, $advid)
             case '/KILL':
             case '/PART':
                 $data=query("insert into onChatLog (userid,text,command,parm,advid) VALUES (?,?,?,?,?)",
-                            $user, "$user parted from the adventure!", $command, $parm, $advid); 
+                            $user, "$user parted from the adventure!", $command, $parm, $advid);
+
+                part_table();
+                
                 return json_encode(["end"=>true,"lastTimestamp"=>$lastTimestamp]);
                 break;
                 
