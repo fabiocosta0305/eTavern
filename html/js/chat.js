@@ -105,7 +105,7 @@ function whoIsOnTable() {
     timeout: 2000,
     success: function(data) {
       $("#people").html(data);
-      window.setTimeout(theParty, 2000);
+      window.setTimeout(whoIsOnTable, 2000);
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
               //      $("#notice_div").html('Timeout contacting server..');

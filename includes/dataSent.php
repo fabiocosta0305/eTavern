@@ -72,10 +72,8 @@ function dataSent($data, $user, $advid)
                 else
                 {
                     $parm=$info[1];
-                    $info[0]=$info[1]="";
-                    
-                    $myData=implode(" ",$info);
-                    
+                                       
+                   
                     $data=query("select id from user where username=?",
                                 $parm);
                     
@@ -119,6 +117,34 @@ function dataSent($data, $user, $advid)
                 {
                     $parm=$info[1];
                     $info[0]=$info[1]="";
+
+                    $data=query("
+SELECT characters.char_name, user.username
+FROM adventure, user, characters, adv_table
+WHERE adventure.advid = adv_table.advid
+AND adv_table.stillOn
+AND adv_table.userid = user.id
+AND characters.id = adv_table.charid
+AND adventure.advid =  ?
+AND lower(user.username) =  lower(?)",$_SESSION['advid'],$parm);
+
+                    if ($data===false)
+                        return false;
+                    elseif (count($data)!=1)
+                    {
+                        error_log(count($data));
+                        $myData="invalid query";
+                        $command="/error";
+                        break;
+                    }
+                    else
+                    {
+                        $row=$data[0];
+                        $myData="$parm is {$row['char_name']}";
+                        break;
+                    }
+
+                    
                 }
                 else
                 {
@@ -138,6 +164,101 @@ function dataSent($data, $user, $advid)
                 return json_encode(["end"=>true,"lastTimestamp"=>$lastTimestamp]);
                 break;
 
+            case '/CONDITION':
+                if (isset($_SESSION['charid']))
+                {
+                    $myData="master-only command!";
+                    $command="/error";
+                    break;
+                }
+                if (count($info)>=2)
+                {
+
+                    $condition_user=$info[1];
+                    $condition_type=$info[2];
+
+                    $info[1]=$info[2]="";
+
+                    $condition_desc=implode(" ",$info);
+
+                    $data=query("
+SELECT char_name, charid
+FROM user, characters, adv_table
+WHERE adv_table.stillOn
+AND adv_table.userid = user.id
+AND characters.id = adv_table.charid
+AND adv_table.advid =  ?
+AND lower(user.username) =  lower(?)",$_SESSION['advid'],$condition_user);
+
+                    if ($data===false)
+                    {
+                        $myData="no valid user";
+                        $command="/error";
+                        break;
+                    }
+                    
+                    $condition_charid=$data[0]['charid'];
+
+                    $register=query("insert into conditions values (?,?,?,default)",
+                                    $condition_charid,$condition_type,$condition_desc);
+
+                    if ($register===false)
+                        return false;
+
+                    $myData="{$data[0]['char_name']} had received the condition $condition_type";
+                    
+                }
+                else
+                {
+                    $myData="no user or condition given";
+                    $command="/error";
+                    break;
+                }
+
+                break;
+                
+            case '/CONDITIONS':
+                if (count($info)!=2)
+                {
+                    $myData="no user";
+                    $command="/error";
+                    break;
+                }
+                else
+                {
+                    $user=$info[1];
+
+                    $data=query("
+SELECT char_name, characters.id as charid, conditions.*
+FROM user, characters, adv_table, conditions
+WHERE adv_table.stillOn
+and not conditions.goneAway
+AND adv_table.userid = user.id
+AND characters.id = adv_table.charid
+AND conditions.charid=adv_table.charid
+AND adv_table.advid =  ?
+AND lower(user.username) =  lower(?)",$_SESSION['advid'],$user);
+
+                    if ($data===false)
+                        return false;
+                    elseif (count($data)===0)
+                    {
+                        $myData="no conditions for this character";                        
+                    }
+                    else
+                    {
+                        $conditions=[];
+                        foreach($data as $condition)
+                        {
+                            $charname=$condition['char_name'];
+                            $conditions[]=$condition['description'];
+                        }
+                        $myData="$charname received the conditions ".implode(",",$conditions);
+                    }
+                    
+                }
+                break;
+                
             default:
                 $myData="had tried a invalid command:".$command;
                 $command="/error";

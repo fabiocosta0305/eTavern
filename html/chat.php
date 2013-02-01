@@ -109,13 +109,11 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
                 else
                     $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']."</div>";
                 break;
-
             case '/FAKEDICE':
                 error_log("Aqui!");
                 $rolled=($line['userid']===$_SESSION['id'])?'fake-rolled':'rolled';
                 $chatData.="<div class=chatInfo>".$line['username']." $rolled ".$line['parm']."</div>";
-                break;
-                
+                break;               
             case '/DICE':
                 $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']." with a ".$line['text']."</div>";
                 break;
@@ -149,7 +147,15 @@ AND characters.id = adv_table.charid and user.id=?",$line['userid']);
                     $chatData.="<div class=secretChatText><span class=secretChatUser>".$line['username']." (secret to you):</span> ".$line['text']."</div>";
                 }
                 break;
-                
+
+            case '/CONDITION':
+            case '/CONDITIONS':
+                $chatData.="<div class=conditions>".$line['text']."</div>";
+                file_put_contents("log.txt",$chatData);
+                break;
+
+
+            case '/WHOIS':
             case '/DEFAULTDICE':
             case '/ME':
             case '/ERROR':
