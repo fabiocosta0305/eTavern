@@ -155,6 +155,7 @@ AND characters.id = adv_table.charid and user.id=?",$line['userid']);
 
 
             case '/WHOIS':
+            case '/WHOPLAYS':
             case '/DEFAULTDICE':
             case '/ME':
             case '/ERROR':

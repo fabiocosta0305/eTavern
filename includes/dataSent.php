@@ -20,12 +20,12 @@ function dataSent($data, $user, $advid)
     {
         $info=explode(" ",$myData);
 
-        $command=$info[0];
+        $command=strtoupper($info[0]);
 
         $info[0]=" ";
         $myData=implode(" ",$info);
         
-        switch(strtoupper($command))
+        switch($command)
         {
             case '/OFF':
                 $info[0]="";
@@ -93,6 +93,12 @@ function dataSent($data, $user, $advid)
 
             case '/FAKEDICE':
             case '/SECRETDICE':
+                if (isset($_SESSION['charid']))
+                {
+                    $myData="master-only command!";
+                    $command="/error";
+                    break;
+                }
             case '/DICE':
                 
                 if (count($info)>1)
@@ -120,7 +126,7 @@ function dataSent($data, $user, $advid)
                     $info[0]=$info[1]="";
 
                     $data=query("
-SELECT characters.char_name, user.username
+SELECT char_name, username
 FROM parties
 WHERE advid =  ?
 AND lower(username) =  lower(?)",$_SESSION['advid'],$parm);
@@ -149,6 +155,47 @@ AND lower(username) =  lower(?)",$_SESSION['advid'],$parm);
                     $command="/error";
                     break;
                 }
+
+                break;
+
+            case '/WHOPLAYS':
+                if (count($info)>1)
+                {
+                    $parm=trim($myData);
+
+                    error_log($parm."\n".$myData);
+
+                    $data=query("
+SELECT char_name, username, realname
+FROM parties
+WHERE advid =  ?
+AND lower(char_name) =  lower(?)",$_SESSION['advid'],$parm);
+
+                    if ($data===false)
+                        return false;
+                    elseif (count($data)!=1)
+                    {
+                        error_log(count($data));
+                        $myData="invalid query";
+                        $command="/error";
+                        break;
+                    }
+                    else
+                    {
+                        $row=$data[0];
+                        $myData="$parm is {$row['username']} ({$row['realname']})";
+                        break;
+                    }
+
+                    
+                }
+                else
+                {
+                    $myData="no character given";
+                    $command="/error";
+                    break;
+                }
+                break;
 
             case '/END':
             case '/KILL':
@@ -180,12 +227,10 @@ AND lower(username) =  lower(?)",$_SESSION['advid'],$parm);
 
                     $data=query("
 SELECT char_name, charid
-FROM user, characters, adv_table
-WHERE adv_table.stillOn
-AND adv_table.userid = user.id
-AND characters.id = adv_table.charid
-AND adv_table.advid =  ?
-AND lower(user.username) =  lower(?)",$_SESSION['advid'],$condition_user);
+FROM char_conditions
+WHERE stillOn
+AND advid =  ?
+AND lower(username) =  lower(?)",$_SESSION['advid'],$condition_user);
 
                     if ($data===false)
                     {
