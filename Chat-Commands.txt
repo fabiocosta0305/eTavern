@@ -14,9 +14,17 @@
 
 /end, /kill or /part - exits the adventure (the master uses to shut the table off)
 
-TODO:
+/condition <player> <condition> <desc> - put a condition over a character
+
+/conditions <player> - list the conditions the player's char has
+
+/aboutCondition <player> <condition> - list additional info about a condition
+
+/revokeCondition, /removeCondition <player> <condition> - remove the condition put over a character
 
 /whois <player> - shows the character the player is using
+
+TODO:
 
 /whoplays <char> - shows the player who is using the character
 
@@ -24,8 +32,6 @@ TODO:
 
 /party - shows the info of the party
 
-/condition <player> <condition> <desc> - put a condition over a character
+/changeCondition <player> <condition> <newCondition> - change condition
 
-/conditions <player> - list the conditions the player's char has
-
-/removeCondition <player> <condition> - remove the condition put over a character
+/changeConditionInfo <player> <condition> <newConditionInfo> - change condition info.

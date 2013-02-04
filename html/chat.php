@@ -34,8 +34,6 @@ require_once("../includes/dataSent.php");
 $(document).ready(function() {
         
         takeFirstTimestamp();
-        offChatGet();
-        onChatGet();
         whoIsOnTable();
 
         $("#chatForm").submit(sendChat);
@@ -66,9 +64,7 @@ order by postedOn",$lastTimestamp,$advid);
 
     if ($dataQuery === false)
         return (false);
-
-    error_log("Aqui!");
-    
+   
     foreach($dataQuery as $data)
     {
         $chatData.="<div class=chatText><span class=chatUser>".$data['username'].":</span> ".$data['text']."</div>";
@@ -98,6 +94,7 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
       
     foreach($dataQuery as $line)
     {
+        error_log($line['command']);
         switch(strtoupper($line['command']))
         {
             case '/OFF':
@@ -110,7 +107,6 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
                     $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']."</div>";
                 break;
             case '/FAKEDICE':
-                error_log("Aqui!");
                 $rolled=($line['userid']===$_SESSION['id'])?'fake-rolled':'rolled';
                 $chatData.="<div class=chatInfo>".$line['username']." $rolled ".$line['parm']."</div>";
                 break;               
@@ -150,6 +146,8 @@ AND characters.id = adv_table.charid and user.id=?",$line['userid']);
 
             case '/CONDITION':
             case '/CONDITIONS':
+            case '/ABOUTCONDITION':
+            case '/REVOKECONDITION':
                 $chatData.="<div class=conditions>".$line['text']."</div>";
                 file_put_contents("log.txt",$chatData);
                 break;

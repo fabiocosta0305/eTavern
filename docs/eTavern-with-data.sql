@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 01/02/2013 às 13:43:43
+-- Tempo de Geração: 04/02/2013 às 08:02:24
 -- Versão do Servidor: 5.5.29
 -- Versão do PHP: 5.4.11
 
@@ -68,7 +68,11 @@ INSERT INTO `adv_table` (`advid`, `userid`, `charid`, `stillOn`) VALUES
 ('etavern_510bf1e6cdaed5.10389387', 1, 0, 0),
 ('etavern_510bf1e6cdaed5.10389387', 2, 27, 0),
 ('etavern_510bf1e6cdaed5.10389387', 4, 28, 0),
-('etavern_510bf1e6cdaed5.10389387', 4, 35, 0);
+('etavern_510bf1e6cdaed5.10389387', 4, 35, 0),
+('etavern_510c0f75e8fee1.42420858', 1, 0, 1),
+('etavern_510c0f75e8fee1.42420858', 4, 28, 1),
+('etavern_510fa093e02ed0.03084124', 1, 0, 0),
+('etavern_510fa093e02ed0.03084124', 2, 27, 0);
 
 -- --------------------------------------------------------
 
@@ -100,8 +104,25 @@ INSERT INTO `adventure` (`advid`, `masterid`, `name`, `system`, `description`, `
 ('etavern_510aaca33ecae7.66525195', 5, 'teste 4', 'teste', 'blah\r\n          ', '4df', '2013-01-31 17:40:51', 1),
 ('etavern_510aadfb7aa183.96838699', 1, 'Teste 5', 'teste', 'blat', '4df', '2013-01-31 17:46:35', 1),
 ('etavern_510ab230136cd1.85266046', 2, 'teste2', 'teste2', 'blah\r\n          ', 'd20', '2013-01-31 18:04:32', 1),
-('etavern_510bf1e6cdaed5.10389387', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4df', '2013-02-01 16:48:38', 1);
+('etavern_510bf1e6cdaed5.10389387', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4df', '2013-02-01 16:48:38', 1),
+('etavern_510c0f75e8fee1.42420858', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4df', '2013-02-01 18:54:45', 1),
+('etavern_510fa093e02ed0.03084124', 1, 'Teste', 'teste', 'blah\r\n          ', '4dF', '2013-02-04 11:50:43', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura stand-in para visualizar `char_conditions`
+--
+CREATE TABLE IF NOT EXISTS `char_conditions` (
+`username` varchar(20)
+,`advid` varchar(40)
+,`stillOn` tinyint(1)
+,`char_name` varchar(100)
+,`charid` bigint(20)
+,`description` varchar(255)
+,`value` varchar(255)
+,`goneAway` tinyint(1)
+);
 -- --------------------------------------------------------
 
 --
@@ -156,25 +177,30 @@ INSERT INTO `characters` (`id`, `userid`, `char_name`, `system`, `base_desc`, `s
 --
 
 CREATE TABLE IF NOT EXISTS `conditions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `charid` bigint(20) NOT NULL,
   `description` varchar(255) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
   `goneAway` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
   KEY `charid` (`charid`,`description`,`goneAway`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Extraindo dados da tabela `conditions`
 --
 
-INSERT INTO `conditions` (`charid`, `description`, `value`, `goneAway`) VALUES
-(28, 'poisoned', '   ', 0),
-(28, 'sleep', '   ', 0),
-(28, 'Consequence(Social,Severe)', 'Castoff', 0),
-(28, 'Consequence(Physical,mild)', '   ', 0),
-(28, 'hit', '   ', 0),
-(27, 'teste', '   ', 0),
-(27, 'teste2', '   ', 0);
+INSERT INTO `conditions` (`id`, `charid`, `description`, `value`, `goneAway`) VALUES
+(1, 28, 'poisoned', '   ', 0),
+(2, 28, 'sleep', '   ', 0),
+(3, 28, 'Consequence(Social,Severe)', 'Castoff', 0),
+(4, 28, 'Consequence(Physical,mild)', '   ', 0),
+(5, 28, 'hit', '   ', 0),
+(6, 27, 'teste', '   ', 1),
+(7, 27, 'teste2', '   ', 1),
+(8, 28, 'teste3', '   ', 0),
+(9, 27, 'Hurt', '   ', 1),
+(10, 27, 'Consequence(Severe,Social)', '    Disturbed by crowds', 1);
 
 -- --------------------------------------------------------
 
@@ -194,8 +220,8 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 --
 
 INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
-(1, '2013-02-01 18:43:03'),
-(2, '2013-02-01 18:42:50');
+(1, '2013-02-04 13:02:24'),
+(2, '2013-02-04 13:02:12');
 
 -- --------------------------------------------------------
 
@@ -334,7 +360,78 @@ INSERT INTO `onChatLog` (`advId`, `userid`, `postedOn`, `command`, `parm`, `text
 ('etavern_510bf1e6cdaed5.10389387', 0, '2013-02-01 18:39:46', '/conds', '', 'Hannah Striker received the conditions Consequence(Physical,mild),Consequence(Social,Severe),hit,poisoned,sleep'),
 ('etavern_510bf1e6cdaed5.10389387', 4, '2013-02-01 18:42:39', '/part', '', '4 parted from the adventure!'),
 ('etavern_510bf1e6cdaed5.10389387', 2, '2013-02-01 18:42:48', '/part', '', '2 parted from the adventure!'),
-('etavern_510bf1e6cdaed5.10389387', 1, '2013-02-01 18:43:01', '/part', '', '1 parted from the adventure!');
+('etavern_510bf1e6cdaed5.10389387', 1, '2013-02-01 18:43:01', '/part', '', '1 parted from the adventure!'),
+('etavern_510c0f75e8fee1.42420858', 0, '2013-02-01 18:55:50', '/conditions', '', 'Hannah Striker received the conditions Consequence(Physical,mild),Consequence(Social,Severe),hit,poisoned,sleep'),
+('etavern_510c0f75e8fee1.42420858', 1, '2013-02-01 18:57:24', '/dice', '4df', '0, 0, +1, 0 = +1'),
+('etavern_510c0f75e8fee1.42420858', 1, '2013-02-01 18:57:32', '/condition', '', 'Hannah Striker had received the condition teste3'),
+('etavern_510c0f75e8fee1.42420858', 0, '2013-02-01 18:57:39', '/conditions', '', 'Hannah Striker received the conditions Consequence(Physical,mild),Consequence(Social,Severe),hit,poisoned,sleep,teste3'),
+('etavern_510c0f75e8fee1.42420858', 1, '2013-02-01 18:58:25', '/dice', '4df', '+1, 0, +1, 0 = +2'),
+('etavern_510c0f75e8fee1.42420858', 4, '2013-02-01 18:59:04', '/error', '', 'master-only command!'),
+('etavern_510c0f75e8fee1.42420858', 0, '2013-02-01 18:59:18', '/conditions', '', 'Hannah Striker received the conditions Consequence(Physical,mild),Consequence(Social,Severe),hit,poisoned,sleep,teste3'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:51:29', '/condition', '', 'O Gralha had received the condition Hurt'),
+('etavern_510fa093e02ed0.03084124', 0, '2013-02-04 11:51:44', '/status', '', 'O Gralha received the conditions teste,teste2,Hurt'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:52:44', '/error', '', 'not enought parameters'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:52:57', '/secret', '2', '  samgamgee all'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:54:31', '/secret', '2', '  samgamgee ALL YOUR BASE ARE BELONG TO US'),
+('etavern_510fa093e02ed0.03084124', 0, '2013-02-04 11:55:23', '/status', '', 'O Gralha received the conditions teste,teste2,Hurt'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:57:15', '/error', '', 'had tried a invalid command:/conditions'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:57:35', '/conditions', '', 'O Gralha received the conditions teste,teste2,Hurt'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:58:32', '/condition', '', 'O Gralha had received the condition Consequence(Severe,Social)'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:58:41', '/error', '', 'no user'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 11:58:50', '/conditions', '', 'O Gralha is under the conditions teste,teste2,Hurt,Consequence(Severe,Social)'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 11:59:08', '/conditions', '', 'O Gralha is under the conditions teste,teste2,Hurt,Consequence(Severe,Social)'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 11:59:23', '/error', '', 'master-only command!'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:03:34', '/error', '', 'no user'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:05:14', '/aboutCondition', '', 'Information about the condition Consequence(Severe,Social) :'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 12:06:40', '/aboutCondition', '', 'Information about the condition Consequence(Severe,Social) for O Gralha :    Disturbed by crowds'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:35:04', '/conditions', '', 'O Gralha is under the conditions teste,teste2,Hurt,Consequence(Severe,Social)'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:35:18', '/aboutCondition', '', 'Information about the condition Hurt for O Gralha:   '),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:36:13', '/revokeCondition', '', 'no conditions for this character or condition teste invalid!'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:39:45', '/revokeCondition', '', 'no conditions for this character or condition teste invalid!'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 12:50:16', '/conditions', '', 'O Gralha is under the conditions Hurt,Consequence(Severe,Social)'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:50:36', '/revokeCondition', '', 'no conditions for this character or condition Hurt invalid!'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:50:53', '/dice', '4dF', '0, 0, -1, 0 = -1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:52:29', '/revokeCondition', '', 'Condition Hurt for  revoked'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:52:31', '/revokeCondition', '', 'Condition Hurt for  revoked'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:52:32', '/revokeCondition', '', 'Condition Hurt for  revoked'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:52:32', '/revokeCondition', '', 'Condition Hurt for  revoked'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 12:53:46', '/conditions', '', 'no conditions for this character'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:54:10', '/conditions', '', 'O Gralha is under the conditions Consequence(Severe,Social)'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:54:42', '/error', '', 'no user'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:00', '/error', '', 'no user'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:49', '/dice', '4dF', '0, +1, -1, -1 = -1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:50', '/dice', '4dF', '0, -1, +1, +1 = +1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:52', '/dice', '4dF', '+1, -1, -1, +1 = 0'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:54', '/dice', '4dF', '0, -1, -1, -1 = -3'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:55', '/dice', '4dF', '+1, -1, +1, +1 = +2'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:56', '/dice', '4dF', '+1, +1, +1, +1 = +4'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:55:58', '/dice', '4dF', '0, 0, +1, 0 = +1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:56:00', '/dice', '4dF', '0, 0, 0, +1 = +1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:56:01', '/dice', '4dF', '-1, -1, 0, +1 = -1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:56:02', '/dice', '4dF', '-1, +1, -1, 0 = -1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 12:56:03', '/dice', '4dF', '+1, 0, 0, +1 = +2'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 13:00:21', '/dice', '4dF', '-1, +1, +1, -1 = 0'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 13:00:23', '/dice', '4dF', '-1, +1, -1, 0 = -1'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 13:00:34', '/conditions', '', 'O Gralha is under the conditions Consequence(Severe,Social)'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 13:00:51', '/revokeCondition', '', 'Condition Consequence(Severe,Social) for O Gralha revoked'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 13:01:04', '/conditions', '', 'no conditions for this character'),
+('etavern_510fa093e02ed0.03084124', 1, '2013-02-04 13:01:25', '/part', '', '1 parted from the adventure!'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:40', '/dice', '4dF', '-1, -1, -1, -1 = -4'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:42', '/dice', '4dF', '0, 0, -1, +1 = 0'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:43', '/dice', '4dF', '-1, +1, +1, 0 = +1'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:44', '/dice', '4dF', '0, 0, -1, +1 = 0'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:45', '/dice', '4dF', '-1, +1, -1, -1 = -2'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:49', '/conditions', '', 'no conditions for this character'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:51', '/error', '', 'had tried a invalid command:/diced'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:53', '/dice', '4dF', '+1, +1, +1, -1 = +2'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:55', '/dice', '4dF', '+1, -1, -1, +1 = 0'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:57', '/dice', '4dF', '-1, +1, +1, +1 = +2'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:58', '/dice', '4dF', '+1, -1, -1, +1 = 0'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:01:59', '/dice', '4dF', '+1, -1, +1, 0 = +1'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:00', '/dice', '4dF', '0, -1, 0, 0 = -1'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:02', '/dice', '4dF', '-1, +1, +1, 0 = +1'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:05', '/conditions', '', 'no conditions for this character'),
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:09', '/part', '', '2 parted from the adventure!');
 
 -- --------------------------------------------------------
 
@@ -375,6 +472,15 @@ INSERT INTO `user` (`id`, `username`, `realname`, `email`, `password`, `master`,
 (10, 'gimli', 'Gimli', 'sonofgloin@valle.com', '$1$HqlULLvf$C8xDhDMgQuZh6oVwag7mC0', 0, '', '', '', '', ''),
 (11, 'boromir', 'Boromir', 'onedoesnotsimply@gondor.gov.me', '$1$5zfe/mUV$faxwJuYFgEHdEeCkIU05U/', 0, '', '', '', '', ''),
 (12, 'mithrandir', 'Gandalf The Gray', 'mithrandir@valinor.gov.ar', '$1$dQowaPbH$50DIpo9aN5OGzpNwMArlO1', 0, '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para visualizar `char_conditions`
+--
+DROP TABLE IF EXISTS `char_conditions`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char_conditions` AS select `user`.`username` AS `username`,`adv_table`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn`,`characters`.`char_name` AS `char_name`,`conditions`.`charid` AS `charid`,`conditions`.`description` AS `description`,`conditions`.`value` AS `value`,`conditions`.`goneAway` AS `goneAway` from (((`user` join `characters`) join `adv_table`) join `conditions`) where ((not(`conditions`.`goneAway`)) and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`) and (`conditions`.`charid` = `adv_table`.`charid`));
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

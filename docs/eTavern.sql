@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 01/02/2013 às 13:44:02
+-- Tempo de Geração: 04/02/2013 às 08:02:39
 -- Versão do Servidor: 5.5.29
 -- Versão do PHP: 5.4.11
 
@@ -58,6 +58,21 @@ CREATE TABLE IF NOT EXISTS `adventure` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura stand-in para visualizar `char_conditions`
+--
+CREATE TABLE IF NOT EXISTS `char_conditions` (
+`username` varchar(20)
+,`advid` varchar(40)
+,`stillOn` tinyint(1)
+,`char_name` varchar(100)
+,`charid` bigint(20)
+,`description` varchar(255)
+,`value` varchar(255)
+,`goneAway` tinyint(1)
+);
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `characters`
 --
 
@@ -80,12 +95,14 @@ CREATE TABLE IF NOT EXISTS `characters` (
 --
 
 CREATE TABLE IF NOT EXISTS `conditions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `charid` bigint(20) NOT NULL,
   `description` varchar(255) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
   `goneAway` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
   KEY `charid` (`charid`,`description`,`goneAway`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
 
@@ -151,6 +168,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=13 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para visualizar `char_conditions`
+--
+DROP TABLE IF EXISTS `char_conditions`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char_conditions` AS select `user`.`username` AS `username`,`adv_table`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn`,`characters`.`char_name` AS `char_name`,`conditions`.`charid` AS `charid`,`conditions`.`description` AS `description`,`conditions`.`value` AS `value`,`conditions`.`goneAway` AS `goneAway` from (((`user` join `characters`) join `adv_table`) join `conditions`) where ((not(`conditions`.`goneAway`)) and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`) and (`conditions`.`charid` = `adv_table`.`charid`));
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

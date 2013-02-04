@@ -64,7 +64,7 @@ function dataSent($data, $user, $advid)
                 break;
 
             case '/SECRET':
-                if (count($info)!==3)
+                if (count($info)<3)
                 {
                     $command="/error";
                     $myData="not enought parameters";
@@ -72,7 +72,8 @@ function dataSent($data, $user, $advid)
                 else
                 {
                     $parm=$info[1];
-                                       
+
+                    $info[1]="";
                    
                     $data=query("select id from user where username=?",
                                 $parm);
@@ -226,18 +227,15 @@ AND lower(user.username) =  lower(?)",$_SESSION['advid'],$condition_user);
                 }
                 else
                 {
-                    $user=$info[1];
+                    $hit_user=$info[1];
 
                     $data=query("
-SELECT char_name, characters.id as charid, conditions.*
-FROM user, characters, adv_table, conditions
-WHERE adv_table.stillOn
-and not conditions.goneAway
-AND adv_table.userid = user.id
-AND characters.id = adv_table.charid
-AND conditions.charid=adv_table.charid
-AND adv_table.advid =  ?
-AND lower(user.username) =  lower(?)",$_SESSION['advid'],$user);
+SELECT *
+FROM char_conditions
+WHERE stillOn
+and not goneAway
+AND advid =  ?
+AND lower(username) =  lower(?)",$_SESSION['advid'],$hit_user);
 
                     if ($data===false)
                         return false;
@@ -253,12 +251,88 @@ AND lower(user.username) =  lower(?)",$_SESSION['advid'],$user);
                             $charname=$condition['char_name'];
                             $conditions[]=$condition['description'];
                         }
-                        $myData="$charname received the conditions ".implode(",",$conditions);
+                        $myData="$charname is under the conditions ".implode(",",$conditions);
                     }
                     
                 }
                 break;
-                
+
+            case '/ABOUTCONDITION':
+                if (count($info)!=3)
+                {
+                    $myData="no user";
+                    $command="/error";
+                    break;
+                }
+                else
+                {
+                    $hit_user=$info[1];
+                    $condition=$info[2];
+
+                    $data=query("
+SELECT *
+FROM char_conditions
+WHERE stillOn
+and not goneAway
+AND advid =  ?
+AND lower(username) =  lower(?)
+AND lower(description) = lower(?) ",$_SESSION['advid'],$hit_user,$condition);
+
+                    if ($data===false)
+                        return false;
+                    elseif (count($data)===0)
+                    {
+                        $myData="no conditions for this character or condition $condition invalid!";
+                    }
+                    else
+                    {
+                        $myData="Information about the condition $condition for {$data[0]['char_name']}:{$data[0]['value']}";
+                    }
+                   
+                }
+                break;
+
+            case '/REVOKECONDITION':
+                if (count($info)!=3)
+                {
+                    $myData="no user";
+                    $command="/error";
+                    break;
+                }
+                else
+                {
+                    $hit_user=$info[1];
+                    $condition=$info[2];
+
+                    $here_info=query("
+SELECT *
+FROM char_conditions
+WHERE stillOn
+and not goneAway
+AND advid =  ?
+AND lower(username) =  lower(?)
+AND lower(description) = lower(?) ",$_SESSION['advid'],$hit_user,$condition);
+                    
+                    $this_data=query("
+UPDATE char_conditions
+   SET goneAway=true
+ WHERE advid =  ?
+   AND lower(username) =  lower(?)
+   AND lower(description) = lower(?) ",$_SESSION['advid'],$hit_user,$condition);
+
+                    
+                    if (count($here_info)===0)
+                    {
+                        $myData="no conditions for this character or condition $condition invalid!";
+                    }
+                    else
+                    {
+                        $myData="Condition $condition for {$here_info[0]['char_name']} revoked";
+                    }
+                   
+                }
+                break;
+
             default:
                 $myData="had tried a invalid command:".$command;
                 $command="/error";
