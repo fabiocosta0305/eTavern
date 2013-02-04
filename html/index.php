@@ -22,5 +22,5 @@ FUNCTION;
                         "username" => $_SESSION["username"],
                         "sheets" => $sheets,
                         "jquery"=>$js_function,
-                        "extraJS"=>["js/whoIsOn.js"]])?>
+                        "extraJS"=>["js/whoIsOn.js"]]);
 ?>

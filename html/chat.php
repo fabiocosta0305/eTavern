@@ -144,13 +144,18 @@ AND characters.id = adv_table.charid and user.id=?",$line['userid']);
                 }
                 break;
 
-            case '/CONDITION':
             case '/CONDITIONS':
             case '/ABOUTCONDITION':
+                if ($line['userid']===$_SESSION['id'])
+                {
+                    $chatData.="<div class=conditions>".$line['text']."</div>";
+                }
+                break;
+                
+            case '/CONDITION':
             case '/REVOKECONDITION':
             case '/REMOVECONDITION':
                 $chatData.="<div class=conditions>".$line['text']."</div>";
-                file_put_contents("log.txt",$chatData);
                 break;
 
 

@@ -186,8 +186,6 @@ AND lower(char_name) =  lower(?)",$_SESSION['advid'],$parm);
                         $myData="$parm is {$row['username']} ({$row['realname']})";
                         break;
                     }
-
-                    
                 }
                 else
                 {
@@ -227,10 +225,11 @@ AND lower(char_name) =  lower(?)",$_SESSION['advid'],$parm);
 
                     $data=query("
 SELECT char_name, charid
-FROM char_conditions
+FROM parties
 WHERE stillOn
 AND advid =  ?
-AND lower(username) =  lower(?)",$_SESSION['advid'],$condition_user);
+AND lower(username) =  lower(?)
+AND charid > 0",$_SESSION['advid'],$condition_user);
 
                     if ($data===false)
                     {
@@ -241,7 +240,7 @@ AND lower(username) =  lower(?)",$_SESSION['advid'],$condition_user);
                     
                     $condition_charid=$data[0]['charid'];
 
-                    $register=query("insert into conditions values (?,?,?,default)",
+                    $register=query("insert into conditions values (default,?,?,?,default)",
                                     $condition_charid,$condition_type,$condition_desc);
 
                     if ($register===false)
@@ -260,42 +259,64 @@ AND lower(username) =  lower(?)",$_SESSION['advid'],$condition_user);
                 break;
                 
             case '/CONDITIONS':
+
+                error_log(count($info));
+                $hit_user=(count($info)===2)?$info[1]:"";
+
+                if (count($info)==2 && isset($_SESSION['charid']))
+                    {
+                        $myData="master-only command";
+                        $command="/error";
+                        break;
+                    }
+                
                 if (count($info)!=2)
                 {
-                    $myData="no user";
-                    $command="/error";
-                    break;
-                }
-                else
-                {
-                    $hit_user=$info[1];
-
+                    error_log("Aqui!");
+                    if (!isset($_SESSION['charid']))
+                    {
+                        $myData="no user";
+                        $command="/error";
+                        break;
+                    }
+                    else
                     $data=query("
+SELECT *
+FROM parties
+WHERE stillOn
+AND advid =  ?
+AND lower(charid) =  lower(?)",$_SESSION['advid'],$_SESSION['charid']);
+                    if ($data===false)
+                        return false;
+
+                    $hit_user=$data[0]['username'];
+                        
+                }
+                
+                $data=query("
 SELECT *
 FROM char_conditions
 WHERE stillOn
-and not goneAway
 AND advid =  ?
 AND lower(username) =  lower(?)",$_SESSION['advid'],$hit_user);
 
-                    if ($data===false)
-                        return false;
-                    elseif (count($data)===0)
-                    {
-                        $myData="no conditions for this character";                        
-                    }
-                    else
-                    {
-                        $conditions=[];
-                        foreach($data as $condition)
-                        {
-                            $charname=$condition['char_name'];
-                            $conditions[]=$condition['description'];
-                        }
-                        $myData="$charname is under the conditions ".implode(",",$conditions);
-                    }
-                    
+                if ($data===false)
+                    return false;
+                elseif (count($data)===0)
+                {
+                    $myData="no conditions for this character";                        
                 }
+                else
+                {
+                    $conditions=[];
+                    foreach($data as $condition)
+                    {
+                        $charname=$condition['char_name'];
+                        $conditions[]=$condition['description'];
+                    }
+                    $myData="$charname is under the conditions ".implode(",",$conditions);
+                }
+                
                 break;
 
             case '/ABOUTCONDITION':
