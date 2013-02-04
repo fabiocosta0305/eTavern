@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 04/02/2013 às 08:02:24
+-- Tempo de Geração: 04/02/2013 às 08:44:25
 -- Versão do Servidor: 5.5.29
 -- Versão do PHP: 5.4.11
 
@@ -69,10 +69,13 @@ INSERT INTO `adv_table` (`advid`, `userid`, `charid`, `stillOn`) VALUES
 ('etavern_510bf1e6cdaed5.10389387', 2, 27, 0),
 ('etavern_510bf1e6cdaed5.10389387', 4, 28, 0),
 ('etavern_510bf1e6cdaed5.10389387', 4, 35, 0),
-('etavern_510c0f75e8fee1.42420858', 1, 0, 1),
-('etavern_510c0f75e8fee1.42420858', 4, 28, 1),
+('etavern_510c0f75e8fee1.42420858', 1, 0, 0),
+('etavern_510c0f75e8fee1.42420858', 4, 28, 0),
 ('etavern_510fa093e02ed0.03084124', 1, 0, 0),
-('etavern_510fa093e02ed0.03084124', 2, 27, 0);
+('etavern_510fa093e02ed0.03084124', 2, 27, 0),
+('etavern_510fb645dc7145.02273979', 1, 0, 0),
+('etavern_510fb645dc7145.02273979', 2, 27, 0),
+('etavern_510fb645dc7145.02273979', 4, 28, 0);
 
 -- --------------------------------------------------------
 
@@ -106,7 +109,8 @@ INSERT INTO `adventure` (`advid`, `masterid`, `name`, `system`, `description`, `
 ('etavern_510ab230136cd1.85266046', 2, 'teste2', 'teste2', 'blah\r\n          ', 'd20', '2013-01-31 18:04:32', 1),
 ('etavern_510bf1e6cdaed5.10389387', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4df', '2013-02-01 16:48:38', 1),
 ('etavern_510c0f75e8fee1.42420858', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4df', '2013-02-01 18:54:45', 1),
-('etavern_510fa093e02ed0.03084124', 1, 'Teste', 'teste', 'blah\r\n          ', '4dF', '2013-02-04 11:50:43', 1);
+('etavern_510fa093e02ed0.03084124', 1, 'Teste', 'teste', 'blah\r\n          ', '4dF', '2013-02-04 11:50:43', 1),
+('etavern_510fb645dc7145.02273979', 1, 'teste x', 'teste', 'Description(optional)\r\n          ', '4df', '2013-02-04 13:23:17', 1);
 
 -- --------------------------------------------------------
 
@@ -191,14 +195,14 @@ CREATE TABLE IF NOT EXISTS `conditions` (
 --
 
 INSERT INTO `conditions` (`id`, `charid`, `description`, `value`, `goneAway`) VALUES
-(1, 28, 'poisoned', '   ', 0),
-(2, 28, 'sleep', '   ', 0),
-(3, 28, 'Consequence(Social,Severe)', 'Castoff', 0),
-(4, 28, 'Consequence(Physical,mild)', '   ', 0),
+(1, 28, 'poisoned', '   ', 1),
+(2, 28, 'sleep', '   ', 1),
+(3, 28, 'Consequence(Social,Severe)', 'Castoff', 1),
+(4, 28, 'Consequence(Physical,mild)', '   ', 1),
 (5, 28, 'hit', '   ', 0),
 (6, 27, 'teste', '   ', 1),
 (7, 27, 'teste2', '   ', 1),
-(8, 28, 'teste3', '   ', 0),
+(8, 28, 'teste3', '   ', 1),
 (9, 27, 'Hurt', '   ', 1),
 (10, 27, 'Consequence(Severe,Social)', '    Disturbed by crowds', 1);
 
@@ -220,8 +224,9 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 --
 
 INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
-(1, '2013-02-04 13:02:24'),
-(2, '2013-02-04 13:02:12');
+(1, '2013-02-04 13:42:11'),
+(2, '2013-02-04 13:42:24'),
+(4, '2013-02-04 13:42:37');
 
 -- --------------------------------------------------------
 
@@ -431,8 +436,43 @@ INSERT INTO `onChatLog` (`advId`, `userid`, `postedOn`, `command`, `parm`, `text
 ('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:00', '/dice', '4dF', '0, -1, 0, 0 = -1'),
 ('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:02', '/dice', '4dF', '-1, +1, +1, 0 = +1'),
 ('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:05', '/conditions', '', 'no conditions for this character'),
-('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:09', '/part', '', '2 parted from the adventure!');
+('etavern_510fa093e02ed0.03084124', 2, '2013-02-04 13:02:09', '/part', '', '2 parted from the adventure!'),
+('etavern_510fb645dc7145.02273979', 4, '2013-02-04 13:28:46', '/conditions', '', 'Hannah Striker is under the conditions poisoned,sleep,Consequence(Social,Severe),Consequence(Physical,mild),hit,teste3'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:29:10', '/removeCondition', '', 'Condition poisoned for Hannah Striker revoked'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:29:16', '/conditions', '', 'Hannah Striker is under the conditions sleep,Consequence(Social,Severe),Consequence(Physical,mild),hit,teste3'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:29:27', '/error', '', 'had tried a invalid command:/removeConditions'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:29:40', '/removeCondition', '', 'Condition sleep for Hannah Striker revoked'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:29:56', '/removeCondition', '', 'Condition teste3 for Hannah Striker revoked'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:30:04', '/conditions', '', 'Hannah Striker is under the conditions Consequence(Social,Severe),Consequence(Physical,mild),hit'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:30:44', '/removeCondition', '', 'Condition Consequence(Social,Severe) for Hannah Striker revoked'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:30:58', '/aboutCondition', '', 'Information about the condition Consequence(Physical,mild) for Hannah Striker:   '),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:31:13', '/removeCondition', '', 'Condition Consequence(Physical,mild) for Hannah Striker revoked'),
+('etavern_510fb645dc7145.02273979', 4, '2013-02-04 13:31:34', '/conditions', '', 'Hannah Striker is under the conditions hit'),
+('etavern_510fb645dc7145.02273979', 4, '2013-02-04 13:31:45', '/conditions', '', 'Hannah Striker is under the conditions hit'),
+('etavern_510fb645dc7145.02273979', 4, '2013-02-04 13:31:52', '/conditions', '', 'no conditions for this character'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:37:04', '/error', '', 'had tried a invalid command:/party'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:37:05', '/error', '', 'had tried a invalid command:/party'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:37:11', '/error', '', 'had tried a invalid command:/party'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:37:12', '/error', '', 'had tried a invalid command:/party'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:37:53', '/error', '', 'had tried a invalid command:/party'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:38:51', '/error', '', 'had tried a invalid command:/party'),
+('etavern_510fb645dc7145.02273979', 2, '2013-02-04 13:40:46', '/party', '', '<table width=100% style=''charlist''><tr><th>User</th><th>Character</th></tr><tr><td>HufflepuffBR</td><td>MASTER</td></tr><tr><td>merry</td><td>Hannah Striker</td></tr><tr><td>samgamgee</td><td>O Gralha</td></tr></table>'),
+('etavern_510fb645dc7145.02273979', 2, '2013-02-04 13:41:45', '/part', '', '2 parted from the adventure!'),
+('etavern_510fb645dc7145.02273979', 4, '2013-02-04 13:41:52', '/part', '', '4 parted from the adventure!'),
+('etavern_510fb645dc7145.02273979', 1, '2013-02-04 13:42:06', '/part', '', '1 parted from the adventure!');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura stand-in para visualizar `parties`
+--
+CREATE TABLE IF NOT EXISTS `parties` (
+`char_name` varchar(100)
+,`username` varchar(20)
+,`realname` varchar(60)
+,`advid` varchar(40)
+,`stillOn` tinyint(1)
+);
 -- --------------------------------------------------------
 
 --
@@ -481,6 +521,15 @@ INSERT INTO `user` (`id`, `username`, `realname`, `email`, `password`, `master`,
 DROP TABLE IF EXISTS `char_conditions`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char_conditions` AS select `user`.`username` AS `username`,`adv_table`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn`,`characters`.`char_name` AS `char_name`,`conditions`.`charid` AS `charid`,`conditions`.`description` AS `description`,`conditions`.`value` AS `value`,`conditions`.`goneAway` AS `goneAway` from (((`user` join `characters`) join `adv_table`) join `conditions`) where ((not(`conditions`.`goneAway`)) and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`) and (`conditions`.`charid` = `adv_table`.`charid`));
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para visualizar `parties`
+--
+DROP TABLE IF EXISTS `parties`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`char_name` AS `char_name`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

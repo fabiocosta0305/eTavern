@@ -148,6 +148,7 @@ AND characters.id = adv_table.charid and user.id=?",$line['userid']);
             case '/CONDITIONS':
             case '/ABOUTCONDITION':
             case '/REVOKECONDITION':
+            case '/REMOVECONDITION':
                 $chatData.="<div class=conditions>".$line['text']."</div>";
                 file_put_contents("log.txt",$chatData);
                 break;

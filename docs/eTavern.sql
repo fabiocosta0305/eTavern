@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 04/02/2013 às 08:02:39
+-- Tempo de Geração: 04/02/2013 às 08:44:00
 -- Versão do Servidor: 5.5.29
 -- Versão do PHP: 5.4.11
 
@@ -150,6 +150,18 @@ CREATE TABLE IF NOT EXISTS `onChatLog` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura stand-in para visualizar `parties`
+--
+CREATE TABLE IF NOT EXISTS `parties` (
+`char_name` varchar(100)
+,`username` varchar(20)
+,`realname` varchar(60)
+,`advid` varchar(40)
+,`stillOn` tinyint(1)
+);
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `user`
 --
 
@@ -177,6 +189,15 @@ CREATE TABLE IF NOT EXISTS `user` (
 DROP TABLE IF EXISTS `char_conditions`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char_conditions` AS select `user`.`username` AS `username`,`adv_table`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn`,`characters`.`char_name` AS `char_name`,`conditions`.`charid` AS `charid`,`conditions`.`description` AS `description`,`conditions`.`value` AS `value`,`conditions`.`goneAway` AS `goneAway` from (((`user` join `characters`) join `adv_table`) join `conditions`) where ((not(`conditions`.`goneAway`)) and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`) and (`conditions`.`charid` = `adv_table`.`charid`));
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para visualizar `parties`
+--
+DROP TABLE IF EXISTS `parties`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`char_name` AS `char_name`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

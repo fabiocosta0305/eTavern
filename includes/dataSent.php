@@ -121,13 +121,9 @@ function dataSent($data, $user, $advid)
 
                     $data=query("
 SELECT characters.char_name, user.username
-FROM adventure, user, characters, adv_table
-WHERE adventure.advid = adv_table.advid
-AND adv_table.stillOn
-AND adv_table.userid = user.id
-AND characters.id = adv_table.charid
-AND adventure.advid =  ?
-AND lower(user.username) =  lower(?)",$_SESSION['advid'],$parm);
+FROM parties
+WHERE advid =  ?
+AND lower(username) =  lower(?)",$_SESSION['advid'],$parm);
 
                     if ($data===false)
                         return false;
@@ -292,6 +288,7 @@ AND lower(description) = lower(?) ",$_SESSION['advid'],$hit_user,$condition);
                 }
                 break;
 
+            case '/REMOVECONDITION':
             case '/REVOKECONDITION':
                 if (count($info)!=3)
                 {
@@ -333,6 +330,22 @@ UPDATE char_conditions
                 }
                 break;
 
+            case '/PARTY':
+                error_log("SELECT char_name, username FROM parties WHERE advid = '{$_SESSION['advid']}'");
+
+                $data=query("SELECT char_name, username
+FROM parties
+WHERE advid = ? order by char_name='MASTER' desc, char_name asc",$_SESSION['advid']);
+
+                $myData="<table width=100% style='charlist'><tr><th>User</th><th>Character</th></tr>";                    
+
+                foreach($data as $char)
+                    $myData.="<tr><td>{$char['username']}</td><td>{$char['char_name']}</td></tr>";
+
+                $myData.="</table>";
+
+                break;
+                
             default:
                 $myData="had tried a invalid command:".$command;
                 $command="/error";
