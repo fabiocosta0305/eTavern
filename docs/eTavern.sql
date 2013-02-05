@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 04/02/2013 às 08:44:00
+-- Tempo de Geração: 05/02/2013 às 08:54:30
 -- Versão do Servidor: 5.5.29
 -- Versão do PHP: 5.4.11
 
@@ -58,6 +58,17 @@ CREATE TABLE IF NOT EXISTS `adventure` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura stand-in para visualizar `allChatLog`
+--
+CREATE TABLE IF NOT EXISTS `allChatLog` (
+`advid` varchar(40)
+,`userid` bigint(20)
+,`postedOn` timestamp
+,`text` text
+);
+-- --------------------------------------------------------
+
+--
 -- Estrutura stand-in para visualizar `char_conditions`
 --
 CREATE TABLE IF NOT EXISTS `char_conditions` (
@@ -102,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `conditions` (
   `goneAway` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `charid` (`charid`,`description`,`goneAway`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -153,7 +164,8 @@ CREATE TABLE IF NOT EXISTS `onChatLog` (
 -- Estrutura stand-in para visualizar `parties`
 --
 CREATE TABLE IF NOT EXISTS `parties` (
-`char_name` varchar(100)
+`charid` bigint(20)
+,`char_name` varchar(100)
 ,`username` varchar(20)
 ,`realname` varchar(60)
 ,`advid` varchar(40)
@@ -184,6 +196,15 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para visualizar `allChatLog`
+--
+DROP TABLE IF EXISTS `allChatLog`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `allChatLog` AS select `onChatLog`.`advId` AS `advid`,`onChatLog`.`userid` AS `userid`,`onChatLog`.`postedOn` AS `postedOn`,`onChatLog`.`text` AS `text` from `onChatLog` union select `offChatLog`.`advid` AS `advid`,`offChatLog`.`userid` AS `userid`,`offChatLog`.`postedOn` AS `postedOn`,`offChatLog`.`text` AS `text` from `offChatLog`;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para visualizar `char_conditions`
 --
 DROP TABLE IF EXISTS `char_conditions`;
@@ -197,7 +218,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char
 --
 DROP TABLE IF EXISTS `parties`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`char_name` AS `char_name`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`id` AS `charid`,`characters`.`char_name` AS `char_name`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

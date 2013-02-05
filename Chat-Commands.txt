@@ -16,7 +16,7 @@
 
 /condition <player> <condition> <desc> - put a condition over a character
 
-/conditions <player> - list the conditions the player's char has
+/conditions <player> - list the conditions the player's char has - a common player can use just for yourself
 
 /aboutCondition <player> <condition> - list additional info about a condition
 
@@ -24,14 +24,14 @@
 
 /whois <player> - shows the character the player is using
 
-TODO:
-
 /whoplays <char> - shows the player who is using the character
-
-/sheet <player> - shows the character sheet of a char
 
 /party - shows the info of the party
 
 /changeCondition <player> <condition> <newCondition> - change condition
 
 /changeConditionInfo <player> <condition> <newConditionInfo> - change condition info.
+
+TODO:
+
+/sheet <player> - shows the character sheet of a char

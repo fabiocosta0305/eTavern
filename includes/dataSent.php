@@ -257,6 +257,114 @@ AND charid > 0",$_SESSION['advid'],$condition_user);
                 }
 
                 break;
+
+                
+            case '/CHANGECONDITION':
+                if (isset($_SESSION['charid']))
+                {
+                    $myData="master-only command!";
+                    $command="/error";
+                    break;
+                }
+                if (count($info)>=3)
+                {
+
+                    $condition_user=$info[1];
+                    $condition_type=$info[2];
+                    $condition_newtype=$info[3];
+
+                    $info[1]=$info[2]=$info[3]="";
+
+                    $condition_desc=implode(" ",$info);
+
+                    $data=query("
+UPDATE char_conditions
+   SET description=?
+ WHERE advid =  ?
+   AND not goneAway
+   AND lower(username) =  lower(?)
+   AND lower(description) = lower(?)
+   AND charid > 0",$condition_newtype,$_SESSION['advid'],$condition_user,$condition_type);
+
+                    if ($data===false)
+                    {
+                        $myData="no valid user";
+                        $command="/error";
+                        break;
+                    }
+                    
+                    $myInfo=query("
+SELECT char_name, charid
+FROM parties
+WHERE stillOn
+AND advid =  ?
+AND lower(username) =  lower(?)
+AND charid > 0",$_SESSION['advid'],$condition_user);
+
+                    $myData="{$myInfo[0]['char_name']} had the condition $condition_type changed to $condition_newtype";
+                    
+                }
+                else
+                {
+                    $myData="no user or condition given";
+                    $command="/error";
+                    break;
+                }
+
+                break;
+
+            case '/CHANGECONDITIONINFO':
+                if (isset($_SESSION['charid']))
+                {
+                    $myData="master-only command!";
+                    $command="/error";
+                    break;
+                }
+                if (count($info)>=3)
+                {
+
+                    $condition_user=$info[1];
+                    $condition_type=$info[2];
+
+                    $info[1]=$info[2]="";
+
+                    $condition_desc=implode(" ",$info);
+
+                    $data=query("
+UPDATE char_conditions
+   SET value=?
+ WHERE advid =  ?
+   AND not goneAway
+   AND lower(username) =  lower(?)
+   AND lower(description) = lower(?)
+   AND charid > 0",$condition_desc,$_SESSION['advid'],$condition_user,$condition_type);
+
+                    if ($data===false)
+                    {
+                        $myData="no valid user";
+                        $command="/error";
+                        break;
+                    }
+                    
+                    $myInfo=query("
+SELECT char_name, charid
+FROM parties
+WHERE stillOn
+AND advid =  ?
+AND lower(username) =  lower(?)
+AND charid > 0",$_SESSION['advid'],$condition_user);
+
+                    $myData="{$myInfo[0]['char_name']} had the condition $condition_type changed to $condition_desc";
+                    
+                }
+                else
+                {
+                    $myData="no user or condition given";
+                    $command="/error";
+                    break;
+                }
+
+                break;
                 
             case '/CONDITIONS':
 

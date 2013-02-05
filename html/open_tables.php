@@ -3,6 +3,10 @@
   // configuration
   require("../includes/config.php");
 
+  // cleaning old tables (>3 hours of inactivity);
+
+  cleanOldTables();
+
   //taking the users
 
   $data=query("

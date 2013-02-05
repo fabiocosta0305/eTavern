@@ -237,4 +237,27 @@ function update_myself()
         apologize("Problems on database. Please contact the administrator!");
 }
 
+function cleanOldTables()
+{
+
+    $time=query("
+SELECT DISTINCT adventure.advid, adv_table.userid, stillOn, ended
+  FROM allChatLog, adventure, adv_table
+ WHERE postedOn < ( NOW( ) -60 *60 *3 ) 
+   AND adventure.advid = allChatLog.advid
+   AND adv_table.advid = adventure.advid");
+
+    if ($time===false)
+        apologize("Problems on database. Please contact the administrator!");
+
+    if (count($time)!==0)
+        foreach($time as $table_info)
+        {
+            $info=query("update adventure set ended=1 where advid=?",$table_info['advid']);
+
+            $info=query("update adv_table set stillOn=0 where advid=? and userid=?",$table_info['advid'],$table_info['userid']);
+
+        }
+}
+
 ?>

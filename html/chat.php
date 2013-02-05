@@ -152,6 +152,8 @@ AND characters.id = adv_table.charid and user.id=?",$line['userid']);
                 }
                 break;
                 
+            case '/CHANGECONDITION':
+            case '/CHANGECONDITIONINFO':
             case '/CONDITION':
             case '/REVOKECONDITION':
             case '/REMOVECONDITION':
