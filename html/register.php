@@ -65,11 +65,15 @@
     {
           $js_function=<<<FUNCTION
               $(document).ready(function(){
+                      jQuery.validator.addMethod("noSpace", function(value, element) { 
+                              return value.indexOf(" ") < 0 && value != ""; 
+                          }, "Space are not allowed");
+                        
                       $('#registerForm').validate(
                       {
                         rules:
                           {
-              username: { required: true  },
+                            username: { required: true, noSpace: true  },
                 email:    { required: true, email: true },
                 password: { required: true },
                 confirmation: { required: true, equalTo: "#password" }
