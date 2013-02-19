@@ -16,7 +16,7 @@
           <input name="confirmation" id="confirmation" placeholder="Confirmation" type="password"/>
         </div>
         <div class="control-group">
-          <button type="submit" class="btn">Register</button>
+          <button type="submit" id="btnSubmit" class="btn">Register</button>
         </div>
     </fieldset>
 </form>

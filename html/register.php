@@ -65,16 +65,15 @@
     {
           $js_function=<<<FUNCTION
               $(document).ready(function(){
-                      $('#registerForm').submit(function(e){e.preventDefault();
-                  }).validate(
+                      $('#registerForm').validate(
                       {
                         rules:
                           {
-              username: { required: true, minlenght: 6, noSpace: true  },
+              username: { required: true  },
                 email:    { required: true, email: true },
-                password: { required: true, minlenght: 6 },
+                password: { required: true },
                 confirmation: { required: true, equalTo: "#password" }
-            },
+                          },
             messages:
             {
                 username:
@@ -101,12 +100,12 @@
                     
                 }
             },
-            submitHandler: function(form){
+                highlight: function(label) {
+                $(label).closest('.control-group').addClass('error');
+            },
+                submitHandler: function(form){
                 form.submit();
-            }
-        }
-                              );
-                  });
+            }});});
 FUNCTION;
 
         // else render form
