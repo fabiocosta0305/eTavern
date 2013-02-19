@@ -1,0 +1,35 @@
+<htmL>
+<head>
+<title>Wiki Help (based on Wiky)</title>
+        <link href="../css/bootstrap.css" rel="stylesheet"/>
+        <link href="../css/bootstrap-responsive.css" rel="stylesheet"/>
+        <link href="../css/styles.css" rel="stylesheet"/>
+</head>
+<body>
+<h2><a name="supported-syntax" class="anchor" href="#supported-syntax"><span class="mini-icon mini-icon-link"></span></a>Supported Syntax</h2>
+
+<ul>
+<li>== Heading ==</li>
+<li>=== Subheading ===</li>
+<li>==== Subsubheading ====</li>
+<li>''''' Bold-italic '''''</li>
+<li>''' Bold '''</li>
+<li>'' Italic ''</li>
+<li>---- Horizontal Line</li>
+<li>: Indentation</li>
+<li>:: Subindentation</li>
+<li>* Unordered list (up to four levels "**** text")</li>
+<li># Ordered list (up to four levels "#### text")</li>
+<li>[[file:<a href="http://example.com/image.jpg">http://example.com/image.jpg</a> title]] an image ([[file|img:http|https|<a>ftp://example.com/image.jpg</a> optional]])</li>
+<li>[<a href="http://example.com">http://example.com</a> An Example Link] a link ([http|https|<a>ftp://example.com</a> optional])</li>
+</ul><h2>
+<a name="known-issues--limitations" class="anchor" href="#known-issues--limitations"><span class="mini-icon mini-icon-link"></span></a>Known issues / limitations</h2>
+
+<ul>
+<li>Unordered and ordered lists can not be mixed (any help and/or ideas would be great)</li>
+<li>Parsing of new lines should be smarter. It should join paragraphs (detected by two consecutive newlines) and avoid listings, headers and indentations</li>
+<li>It's not designed to handle user errors. If your user fails with syntax, the end result will reflect that.</li>
+<li>Has only been tested to work with PHP 5.3.6 and later versions. Some older versions might have problems with some markup.</li>
+</ul><h2>
+</body>
+</html>

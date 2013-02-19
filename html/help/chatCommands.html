@@ -1,0 +1,102 @@
+<htmL>
+<head>
+<title>Chat Commands</title>
+        <link href="../css/bootstrap.css" rel="stylesheet"/>
+        <link href="../css/bootstrap-responsive.css" rel="stylesheet"/>
+        <link href="../css/chat.css" rel="stylesheet"/>
+</head>
+<body>
+
+<table>
+<tr>
+<th width=20%>Command</th>
+<th>Description</th>
+
+<tr>
+<td>
+/off</td><td> send message to the off-action chatroom
+</td>
+</tr>
+<tr>
+<td>
+/me</td><td>send a message as a dialog on on-action chatroom
+</td>
+</tr>
+<tr>
+<td>
+/dice &lt;diceRoll&gt; </td><td> roll some dices 
+</td>
+</tr>
+<tr>
+<td>
+/defaultDice &lt;diceRoll&gt;</td><td>sets a default dice roll: this way, the user don't need to input the normal /dice command. Without parameters, unset the default dice
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/fakeDice &lt;diceRoll&gt;</td><td>make a fake roll (no real roll)
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/secretDice &lt;diceRoll&gt;</td><td>make a roll that just the master sees
+</td>
+</tr>
+<tr>
+<td>
+/secret &lt;user&gt; &lt;secret_message&gt;</td><td>send a secret message on on-action chatroom for just a character
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/end, /kill or /part</td><td>exits the adventure (the master uses to shut the table off)
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/condition &lt;player&gt; &lt;condition&gt; &lt;desc&gt;</td><td>put a condition over a character
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/conditions &lt;player&gt;</td><td>list the conditions the player's char has. A common player can use just for yourself
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/aboutCondition &lt;player&gt; &lt;condition&gt;</td><td>list additional info about a condition
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/revokeCondition, /removeCondition &lt;player&gt; &lt;condition&gt;</td><td>remove the condition put over a character
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/whois &lt;player&gt;</td><td>shows the character the player is using
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/whoplays &lt;char&gt;</td><td>shows the player who is using the character
+</td>
+</tr>
+<tr>
+<td>
+/party</td><td>shows the info of the party
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/changeCondition &lt;player&gt; &lt;condition&gt; &lt;newCondition&gt;</td><td>change condition
+</td>
+</tr>
+<tr class="masterCommands">
+<td>
+/changeConditionInfo &lt;player> &lt;condition&gt; &lt;newConditionInfo&gt;</td><td>change condition info.
+</td>
+</tr>
+</table>
+</body>
+</html>
