@@ -1,22 +1,22 @@
-<form action="register.php" method="post">
+<form id="registerForm" action="register.php" method="post">
     <fieldset>
         <div class="control-group">
-            <input autofocus name="username" placeholder="Username" type="text"/>
+          <input autofocus name="username" id="username" placeholder="Username" type="text"/>
         </div>
         <div class="control-group">
-     <input name="email" placeholder="Email" type="text"/>
+          <input name="email" id="email" placeholder="Email" type="text"/>
         </div>
         <div class="control-group">
-            <input name="realname" placeholder="Real Name (optional)" type="text"/>
+          <input name="realname" id="realname" placeholder="Real Name (optional)" type="text"/>
         </div>
         <div class="control-group">
-            <input name="password" placeholder="Password" type="password"/>
+          <input name="password" id="password" placeholder="Password" type="password"/>
         </div>
         <div class="control-group">
-            <input name="confirmation" placeholder="Confirmation" type="password"/>
+          <input name="confirmation" id="confirmation" placeholder="Confirmation" type="password"/>
         </div>
         <div class="control-group">
-            <button type="submit" class="btn">Register</button>
+          <button type="submit" class="btn">Register</button>
         </div>
     </fieldset>
 </form>
