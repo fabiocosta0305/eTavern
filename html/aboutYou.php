@@ -33,7 +33,7 @@
 
 FUNCTION;
         render("aboutYou_edit.php", ["title" => "Information About You",
-                                     "extraJS" => ["js/aboutYoyVal.js","js/jquery.validate.js"],
+                                     "extraJS" => ["js/aboutYouVal.js","js/jquery.validate.js"],
                                      "jquery" => $js_function,
                                      "data" => $test[0],
                                      "controller" => "aboutYou.php"]);
