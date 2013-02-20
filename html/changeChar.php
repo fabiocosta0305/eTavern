@@ -17,6 +17,7 @@
                     apologize("Sheet not found on your binder");
 
                 $data=$test[0];
+
                 
                 // else render form
                 render("newChar_registry.php", ["title" => "Change character".$data["char_name"],
@@ -54,7 +55,8 @@
         $data["sheet"]=$sheet;
         $data["history"]=$history;
         $data["id"]=$_POST['id'];
-        
+
+       
         render("newChar_result.php", ["title" => "Character {$_POST["char_name"]} changed!",
                                       "data"=>$data,"permissions"=>true,"id"=>$_SESSION['id']]);
             }

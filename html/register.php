@@ -27,6 +27,18 @@
         {
             apologize("The password and confirmation didn't match.");
         }
+        else if (!(strpos($_POST["username"], " ")===false))
+        {
+            apologize("Username can't have spaces.");
+        }
+        else if (strlen($_POST["username"])<6)
+        {
+            apologize("Username needs to be at least 6 letters long.");
+        }
+        else if (strlen($_POST["password"])<6)
+        {
+            apologize("Password needs to be at least 6 letters long.");
+        }
 
         // query database for user
         $rows = query("SELECT * FROM user WHERE username = ?", $_POST["username"]);
@@ -68,23 +80,27 @@
                       jQuery.validator.addMethod("noSpace", function(value, element) { 
                               return value.indexOf(" ") < 0 && value != ""; 
                           }, "Space are not allowed");
-                        
+                      
+                      jQuery.validator.addMethod("minSize", function(value, element) { 
+                              return value.length >= 6; 
+                          }, "needs at least 6 characters");
+
                       $('#registerForm').validate(
                       {
                         rules:
                           {
-                            username: { required: true, noSpace: true  },
-                email:    { required: true, email: true },
-                password: { required: true },
-                confirmation: { required: true, equalTo: "#password" }
+                            username: { required: true, minSize: true, noSpace: true  },
+                                  email:    { required: true, email: true },
+                                  password: { required: true, minSize: true },
+                                  confirmation: { required: true, minSize: true, equalTo: "#password" }
                           },
             messages:
             {
                 username:
                 {
                     required: "Provide an username",
-                    minlenght: "Username size is at least 2",
-                    noSpace: "Usernames can't have spaces"
+                    minSize: "Username needs to be at least 6 characters long",
+                    noSpace: "Spaces are not allowed on username"
                 },
                 email:
                 {
@@ -94,12 +110,12 @@
                 password:
                 {
                     required: "Provide a password",
-                    minlenght: "Password size is at least 6"
+                    minSize: "Confirmation needs to be at least 6 characters long"
                 },
                 confirmation:
                 {
                     required: "Confirm your password",
-                    minlenght: "Confirmation size is at least 6",
+                    minSize: "Confirmation needs to be at least 6 characters long",
                     equalTo: "The password doesn't match with the confirmation"
                     
                 }

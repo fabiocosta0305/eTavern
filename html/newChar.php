@@ -49,8 +49,18 @@
     }
     else
     {
-        // else render form
+            // else render form
+        $js_function=<<<FUNCTION
+
+            function openWikiHelp()
+        {
+            window.open("/help/wikiHelp.html",help,"dependent,height=300,widht=300");
+        }
+
+
+FUNCTION;
         render("newChar_registry.php", ["title" => "Create new character",
+                                        "jquery" => $js_function,
                                         "controller" => "newChar.php"]);
     }
 

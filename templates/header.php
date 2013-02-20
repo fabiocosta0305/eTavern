@@ -15,10 +15,9 @@
             <title>eTavern - Your Tabletop RPG Online</title>
         <?php endif ?>
 
-        <script src="js/jquery-1.8.2.js"></script>
+        <script src="js/jquery-1.9.0.js"></script>
         <script src="js/bootstrap.js"></script>
         <script src="js/scripts.js"></script>
-        <script src="js/json2.js"></script>
 <?php
    if (isset($extraJS))
       foreach ($extraJS as $file):

@@ -134,3 +134,15 @@
     font-variant: small-caps;
     color: dark-green;
 }
+
+.masterCommands
+{
+    background-color:Aquamarine;
+}
+
+th
+{
+    font-weight: bold;
+    font-variant: small-caps;
+    align: center;
+}

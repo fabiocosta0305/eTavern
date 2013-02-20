@@ -20,11 +20,11 @@
      </div>
      </div>
      <div class="charSheetData">
-     <div class="charSheetHeader">Character Sheet</div>
+     <div class="charSheetHeader">Character Sheet <a href class="charLink" onClick="return popitup('/help/wikiHelp.html');">(Wiki Formatted)</a></div>
      <textarea style="width:97%" name="sheet" cols="60" rows="5">
 <?= isset($data)?$data["sheet"]:"Character Sheet(optional)";?>
      </textarea>
-     <div class="charSheetHeader">History</div>
+     <div class="charSheetHeader">History <a href class="charLink" onClick="return popitup('/help/wikiHelp.html');">(Wiki Formatted)</a></div>
      <textarea style="width:97%" name="history" cols="60" rows="5">
      <?= isset($data)?$data["history"]:"History(optional)";?>
      </textarea>
