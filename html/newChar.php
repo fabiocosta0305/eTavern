@@ -52,6 +52,8 @@
             // else render form
         $js_function=<<<FUNCTION
 
+            $(document).ready(charFormValidation);
+
             function openWikiHelp()
         {
             window.open("/help/wikiHelp.html",help,"dependent,height=300,widht=300");
@@ -60,6 +62,7 @@
 
 FUNCTION;
         render("newChar_registry.php", ["title" => "Create new character",
+                                        "extraJS" => ["js/newCharVal.js","js/jquery.validate.js"],
                                         "jquery" => $js_function,
                                         "controller" => "newChar.php"]);
     }

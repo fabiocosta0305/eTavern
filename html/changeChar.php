@@ -18,11 +18,21 @@
 
                 $data=$test[0];
 
-                
+                        $js_function=<<<FUNCTION
+
+            $(document).ready(charFormValidation);
+
+            function openWikiHelp()
+        {
+            window.open("/help/wikiHelp.html",help,"dependent,height=300,widht=300");
+        }
+FUNCTION;
                 // else render form
-                render("newChar_registry.php", ["title" => "Change character".$data["char_name"],
-                                                "controller" => "changeChar.php",
-                                                "data"=>$data]);
+render("newChar_registry.php", ["title" => "Change character".$data["char_name"],
+                                "extraJS" => ["js/newCharVal.js","js/jquery.validate.js"],
+                                "jquery" => $js_function,
+                                "controller" => "changeChar.php",
+                                "data"=>$data]);
             }
             else
             {
