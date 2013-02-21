@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.4
+-- version 3.5.6
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 05/02/2013 às 08:54:30
--- Versão do Servidor: 5.5.29
+-- Tempo de Geração: 21/02/2013 às 09:46:19
+-- Versão do Servidor: 5.5.30
 -- Versão do PHP: 5.4.11
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `history` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`char_name`,`system`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
 
 -- --------------------------------------------------------
 
@@ -166,6 +166,7 @@ CREATE TABLE IF NOT EXISTS `onChatLog` (
 CREATE TABLE IF NOT EXISTS `parties` (
 `charid` bigint(20)
 ,`char_name` varchar(100)
+,`userid` bigint(20)
 ,`username` varchar(20)
 ,`realname` varchar(60)
 ,`advid` varchar(40)
@@ -184,14 +185,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(30) COLLATE utf8_bin NOT NULL,
   `password` varchar(40) CHARACTER SET latin1 NOT NULL,
   `master` tinyint(1) DEFAULT '0',
-  `aboutYou` text COLLATE utf8_bin NOT NULL,
-  `site` varchar(255) COLLATE utf8_bin NOT NULL,
-  `facebook` varchar(255) COLLATE utf8_bin NOT NULL,
-  `twitter` varchar(100) COLLATE utf8_bin NOT NULL,
-  `googleplus` varchar(255) COLLATE utf8_bin NOT NULL,
+  `aboutYou` text COLLATE utf8_bin,
+  `site` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `facebook` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `twitter` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `googleplus` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=19 ;
 
 -- --------------------------------------------------------
 
@@ -218,7 +219,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char
 --
 DROP TABLE IF EXISTS `parties`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`id` AS `charid`,`characters`.`char_name` AS `char_name`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`id` AS `charid`,`characters`.`char_name` AS `char_name`,`user`.`id` AS `userid`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
