@@ -8,7 +8,7 @@
  **********************************************************************/
 
 function popitup(url) {
-	newwindow=window.open(url,'name','titlebar=no,height=300,width=600');
+	newwindow=window.open(url,'name','titlebar=no,height=300,width=800');
 	if (window.focus) {newwindow.focus()}
 	return false;
 }

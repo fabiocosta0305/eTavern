@@ -5,6 +5,13 @@
 
   //taking the users
 
+  // For security and for using on a /kick command
+  if (!isset($_SESSION['advid']))
+      {
+          echo "kicked out";
+          return true;
+      }
+
   // TODO: Setting the order (by realname or by character name - master is always firts)
 
 $data=query("select * from parties where advid=? order by char_name='MASTER' desc, char_name asc",$_SESSION['advid']);

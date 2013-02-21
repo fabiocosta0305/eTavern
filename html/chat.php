@@ -5,9 +5,14 @@ require("../includes/config.php");
 require_once("../includes/diceRoller.php");
 require_once("../includes/dataSent.php");
 
-    // if form was submitted
+// For security and for using on a /kick command
+if (!isset($_SESSION['advid']))
+    redirect ("/");
+
+// if form was submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
+        
         switch ($_POST['command'])
         {
             case 'dataSent':
@@ -99,7 +104,7 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
         {
             case '/OFF':
                 break;
-                
+
             case '/SECRETDICE':
                 if ($line['userid']===$_SESSION['id'])
                     $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']." with a ".$line['text']."</div>";
@@ -114,6 +119,24 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
                 $chatData.="<div class=chatInfo>".$line['username']." rolled ".$line['parm']." with a ".$line['text']."</div>";
                 break;
 
+            case '/KICK':
+                if ($line['parm'] == $_SESSION['id'])
+                {
+                    $chatData.="<div class=info>You were kicked from the adventure by the master".(!empty($line['text']))?"({$line['text']})":""."  </div>";
+                    part_table();
+                }
+                else
+                {
+                    error_log("Estive aqui com o {$_SESSION['id']}  - vivo - {$line['parm']}");
+                    $data2=query("select username,  realname, char_name FROM user, adv_table, characters
+WHERE user.id = adv_table.userid
+AND characters.id = adv_table.charid and user.id=?",$line['parm']);
+                    $row=$data2[0];
+                    $chatData.="<div class=info>{$row['realname']} ({$row['username']
+}), player of {$row['char_name']} was kicked from the adventure".(!empty($line['text']))?"({$line['text']})":""."  </div>";
+                }
+                break;
+                
             case '/PART':
             case '/KILL':
             case '/END':
@@ -127,6 +150,21 @@ AND characters.id = adv_table.charid and user.id=?",$line['userid']);
                 $chatData.="<div class=info>{$row['realname']} ({$row['username']
 }), player of {$row['char_name']} left the party and the adventure </div>";
 
+                break;
+
+            case '/SECRET':
+                if ($line['userid']===$_SESSION['id'])
+                {
+                    $data2=query("select username from user where id=?",$line['parm']);
+
+                    $row=$data2[0];
+                    
+                    $chatData.="<div class=secretChatText><span class=secretChatUser>".$line['username']." (secret to {$row['username']}):</span> ".$line['text']."</div>";
+                }
+                else if ($line['parm']==$_SESSION['id'])
+                {
+                    $chatData.="<div class=secretChatText><span class=secretChatUser>".$line['username']." (secret to you):</span> ".$line['text']."</div>";
+                }
                 break;
 
             case '/SECRET':
@@ -211,5 +249,6 @@ function part_table()
 
     
 }
+
 
 ?>

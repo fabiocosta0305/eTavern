@@ -104,10 +104,17 @@ function whoIsOnTable() {
     url: 'bring_party.php',
     timeout: 2000,
     success: function(data) {
-      $("#people").html(data);
-      window.setTimeout(whoIsOnTable, 2000);
+        if (data=='kicked out')
+        {
+            window.location.href='/';
+        }
+        else
+        {
+            $("#people").html(data);
+            window.setTimeout(whoIsOnTable, 2000);
+        }
     },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
               //      $("#notice_div").html('Timeout contacting server..');
               //      window.setTimeout(update, 60000);
     }

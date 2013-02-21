@@ -6,7 +6,7 @@ function dataSent($data, $user, $advid)
     $myData=$data;
     $command="";
     $parm="";
-        
+    
     $dataQuery=query("select UNIX_TIMESTAMP(CURRENT_TIMESTAMP) as last");
 
     if ($dataQuery === false)
@@ -61,6 +61,41 @@ function dataSent($data, $user, $advid)
                     $_SESSION['defaultDice']=$info[1];
                     $myData="set default dice to ".$info[1];
                 }
+                break;
+
+            case '/KICK':
+                if (isset($_SESSION['charid']))
+                {
+                    $myData="master-only command!";
+                    $command="/error";
+                    break;
+                }
+                else if (count($info)<2)
+                {
+                    $command="/error";
+                    $myData="not enought parameters";
+                }
+                else
+                {
+                    $parm=$info[1];
+
+                    $info[1]="";
+                   
+                    $data=query("select userid from parties where username=? and advid=?",
+                                $parm,$_SESSION['advid']);
+                    
+                    if ($data === false)
+                    {
+                        $command="/error";
+                        $myData="user $parm not found or not on this table";
+                    }
+                    else
+                    {
+                        $row=$data[0];
+                        $parm=$row['userid'];
+                        $myData=trim(implode(" ",$info));
+                    }
+                }               
                 break;
 
             case '/SECRET':
