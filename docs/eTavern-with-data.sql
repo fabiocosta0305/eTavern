@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 21/02/2013 às 09:44:42
+-- Tempo de Geração: 21/02/2013 às 11:43:28
 -- Versão do Servidor: 5.5.30
 -- Versão do PHP: 5.4.11
 
@@ -98,8 +98,11 @@ INSERT INTO `adv_table` (`advid`, `userid`, `charid`, `stillOn`) VALUES
 ('etavern_51262e9c156c69.82570094', 2, 27, 0),
 ('etavern_512630318db679.05546246', 1, 0, 0),
 ('etavern_512630318db679.05546246', 2, 27, 0),
-('etavern_51263209938e70.38997862', 1, 0, 1),
-('etavern_51263209938e70.38997862', 2, 18, 0);
+('etavern_51263209938e70.38997862', 1, 0, 0),
+('etavern_51263209938e70.38997862', 2, 18, 0),
+('etavern_5126384275c630.16050255', 1, 0, 0),
+('etavern_5126384275c630.16050255', 2, 18, 0),
+('etavern_5126384275c630.16050255', 2, 27, 0);
 
 -- --------------------------------------------------------
 
@@ -144,7 +147,8 @@ INSERT INTO `adventure` (`advid`, `masterid`, `name`, `system`, `description`, `
 ('etavern_51262b516c6b03.13316552', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4dF', '2013-02-21 14:12:33', 1),
 ('etavern_51262e9c156c69.82570094', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4dF', '2013-02-21 14:26:36', 1),
 ('etavern_512630318db679.05546246', 1, 'Teste', 'Teste', 'Description(optional)\r\n          ', '4dF', '2013-02-21 14:33:21', 1),
-('etavern_51263209938e70.38997862', 1, 'Teste', 'teste', 'Description(optional)\r\n          ', '4dF', '2013-02-21 14:41:13', 0);
+('etavern_51263209938e70.38997862', 1, 'Teste', 'teste', 'Description(optional)\r\n          ', '4dF', '2013-02-21 14:41:13', 1),
+('etavern_5126384275c630.16050255', 1, 'teste', 'teste', 'Description(optional)\r\n          ', '4dF', '2013-02-21 15:07:46', 1);
 
 -- --------------------------------------------------------
 
@@ -272,7 +276,8 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 --
 
 INSERT INTO `loggedOn` (`id`, `lasttime`) VALUES
-(1, '2013-02-21 14:44:42');
+(1, '2013-02-21 16:43:27'),
+(2, '2013-02-21 16:43:26');
 
 -- --------------------------------------------------------
 
@@ -598,7 +603,11 @@ INSERT INTO `onChatLog` (`advId`, `userid`, `postedOn`, `command`, `parm`, `text
 ('etavern_512630318db679.05546246', 1, '2013-02-21 14:34:10', '/KICK', NULL, 'personagem overpower'),
 ('etavern_512630318db679.05546246', 1, '2013-02-21 14:39:07', '/KICK', '2', 'overpower'),
 ('etavern_512630318db679.05546246', 1, '2013-02-21 14:39:30', '/PART', '', '1 parted from the adventure!'),
-('etavern_51263209938e70.38997862', 1, '2013-02-21 14:41:45', '/KICK', '2', 'overpower');
+('etavern_51263209938e70.38997862', 1, '2013-02-21 14:41:45', '/KICK', '2', 'overpower'),
+('etavern_51263209938e70.38997862', 1, '2013-02-21 15:07:13', '/PART', '', '1 parted from the adventure!'),
+('etavern_5126384275c630.16050255', 1, '2013-02-21 16:39:26', '/KICK', '2', ''),
+('etavern_5126384275c630.16050255', 1, '2013-02-21 16:39:53', '/KICK', '2', 'overpower'),
+('etavern_5126384275c630.16050255', 1, '2013-02-21 16:42:51', '/PART', '', '1 parted from the adventure!');
 
 -- --------------------------------------------------------
 
@@ -613,6 +622,25 @@ CREATE TABLE IF NOT EXISTS `parties` (
 ,`realname` varchar(60)
 ,`advid` varchar(40)
 ,`stillOn` tinyint(1)
+);
+-- --------------------------------------------------------
+
+--
+-- Estrutura stand-in para visualizar `used_chars`
+--
+CREATE TABLE IF NOT EXISTS `used_chars` (
+`username` varchar(20)
+,`realname` varchar(60)
+,`advid` varchar(40)
+,`stillOn` tinyint(1)
+,`charid` bigint(20)
+,`id` bigint(20)
+,`userid` bigint(20)
+,`char_name` varchar(100)
+,`system` varchar(100)
+,`base_desc` varchar(100)
+,`sheet` text
+,`history` text
 );
 -- --------------------------------------------------------
 
@@ -681,6 +709,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char
 DROP TABLE IF EXISTS `parties`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`id` AS `charid`,`characters`.`char_name` AS `char_name`,`user`.`id` AS `userid`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para visualizar `used_chars`
+--
+DROP TABLE IF EXISTS `used_chars`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `used_chars` AS select `user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn`,`characters`.`id` AS `charid`,`characters`.`id` AS `id`,`characters`.`userid` AS `userid`,`characters`.`char_name` AS `char_name`,`characters`.`system` AS `system`,`characters`.`base_desc` AS `base_desc`,`characters`.`sheet` AS `sheet`,`characters`.`history` AS `history` from (((`user` join `characters`) join `adventure`) join `adv_table`) where ((`user`.`id` = `adv_table`.`userid`) and (`adventure`.`advid` = `adv_table`.`advid`) and (`characters`.`id` = `adv_table`.`charid`)) order by `adventure`.`advid`;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

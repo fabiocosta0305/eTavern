@@ -52,7 +52,7 @@ select adventure.*, user.username as masterUserName, user.realname as masterReal
 
     // check the character binder for the player
 
-    $data=query("select char_name, system, id from characters where userid=?",$_SESSION['id']);
+    $data=query("select char_name, system, id from characters where userid=? and id not in (select charid from used_chars where userid=? and advid=?)",$_SESSION['id'],$_SESSION['id'],$_GET['adventure']);
     /* $data=query("select char_name, system, id from characters, adv_table where characters.userid=? and adv_table.userid=? and adv_table.advid=? and characters.charid<>adv_table.charid",$_SESSION['id']); */
 
     if ($data===false)

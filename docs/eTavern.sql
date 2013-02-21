@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 21/02/2013 às 09:46:19
+-- Tempo de Geração: 21/02/2013 às 11:44:08
 -- Versão do Servidor: 5.5.30
 -- Versão do PHP: 5.4.11
 
@@ -175,6 +175,25 @@ CREATE TABLE IF NOT EXISTS `parties` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura stand-in para visualizar `used_chars`
+--
+CREATE TABLE IF NOT EXISTS `used_chars` (
+`username` varchar(20)
+,`realname` varchar(60)
+,`advid` varchar(40)
+,`stillOn` tinyint(1)
+,`charid` bigint(20)
+,`id` bigint(20)
+,`userid` bigint(20)
+,`char_name` varchar(100)
+,`system` varchar(100)
+,`base_desc` varchar(100)
+,`sheet` text
+,`history` text
+);
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `user`
 --
 
@@ -220,6 +239,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char
 DROP TABLE IF EXISTS `parties`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`id` AS `charid`,`characters`.`char_name` AS `char_name`,`user`.`id` AS `userid`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para visualizar `used_chars`
+--
+DROP TABLE IF EXISTS `used_chars`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `used_chars` AS select `user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn`,`characters`.`id` AS `charid`,`characters`.`id` AS `id`,`characters`.`userid` AS `userid`,`characters`.`char_name` AS `char_name`,`characters`.`system` AS `system`,`characters`.`base_desc` AS `base_desc`,`characters`.`sheet` AS `sheet`,`characters`.`history` AS `history` from (((`user` join `characters`) join `adventure`) join `adv_table`) where ((`user`.`id` = `adv_table`.`userid`) and (`adventure`.`advid` = `adv_table`.`advid`) and (`characters`.`id` = `adv_table`.`charid`)) order by `adventure`.`advid`;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
