@@ -1,2 +1,3 @@
-- Implementing absent chat commands
-- Implementing jQuery-base client-size form validations
+- correct kick command info
+- filter character sheets already used on an adventure
+- implement sheet cloning functionality (a user being able to clone a character sheet from another user)
