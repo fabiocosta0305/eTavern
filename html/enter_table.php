@@ -53,6 +53,7 @@ select adventure.*, user.username as masterUserName, user.realname as masterReal
     // check the character binder for the player
 
     $data=query("select char_name, system, id from characters where userid=?",$_SESSION['id']);
+    /* $data=query("select char_name, system, id from characters, adv_table where characters.userid=? and adv_table.userid=? and adv_table.advid=? and characters.charid<>adv_table.charid",$_SESSION['id']); */
 
     if ($data===false)
         apologize("We had some problem on the database! Please wait or contact the administrator!");

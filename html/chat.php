@@ -122,18 +122,19 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
             case '/KICK':
                 if ($line['parm'] == $_SESSION['id'])
                 {
-                    $chatData.="<div class=info>You were kicked from the adventure by the master".(!empty($line['text']))?"({$line['text']})":""."  </div>";
+                    $justify=!empty($line['text'])?"({$line['text']})":"";
+                    $chatData.="<div class=info>You were kicked from the adventure by the master $justify</div>";
                     part_table();
                 }
                 else
                 {
-                    error_log("Estive aqui com o {$_SESSION['id']}  - vivo - {$line['parm']}");
                     $data2=query("select username,  realname, char_name FROM user, adv_table, characters
 WHERE user.id = adv_table.userid
 AND characters.id = adv_table.charid and user.id=?",$line['parm']);
                     $row=$data2[0];
+                    $justify=!empty($line['text'])?"({$line['text']})":"";
                     $chatData.="<div class=info>{$row['realname']} ({$row['username']
-}), player of {$row['char_name']} was kicked from the adventure".(!empty($line['text']))?"({$line['text']})":""."  </div>";
+}), player of {$row['char_name']} was kicked from the adventure $justify </div>";
                 }
                 break;
                 
