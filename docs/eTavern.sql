@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 21/02/2013 às 11:44:08
+-- Tempo de Geração: 21/02/2013 às 14:27:04
 -- Versão do Servidor: 5.5.30
 -- Versão do PHP: 5.4.11
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `history` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`char_name`,`system`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 -- --------------------------------------------------------
 
