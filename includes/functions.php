@@ -224,6 +224,31 @@
         }
     }
 
+    function simpler_render($template, $values = [])
+    {
+        // if template exists, render it
+        if (file_exists("../templates/$template"))
+        {
+            // extract variables into local scope
+            extract($values);
+
+            // render header
+            require("../templates/simple_header.php");
+
+            // render template
+            require("../templates/$template");
+
+            // render footer
+            require("../templates/footer.php");
+        }
+
+        // else err
+        else
+        {
+            trigger_error("Invalid template: $template", E_USER_ERROR);
+        }
+    }
+
 function update_myself()
 {
     $time=query("replace into loggedOn (id,lasttime) values (?, now());", $_SESSION["id"]);
