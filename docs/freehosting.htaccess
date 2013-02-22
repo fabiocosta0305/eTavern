@@ -1,0 +1,6 @@
+RewriteEngine On
+Options +FollowSymlinks
+RewriteBase /
+RewriteCond %{HTTP_HOST} etavern.p.ht
+RewriteCond %{REQUEST_URI} !html/
+RewriteRule ^(.*)$ html/$1 [L]
