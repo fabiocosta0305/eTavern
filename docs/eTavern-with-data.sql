@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Banco de Dados: `etavern`
 --
-CREATE DATABASE `etavern` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+-- CREATE DATABASE `etavern` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `etavern`;
 
 -- --------------------------------------------------------

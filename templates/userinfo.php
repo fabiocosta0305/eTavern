@@ -3,12 +3,12 @@
 <tr>
   <th colspan=2><div class="username"><?= $userinfo['realname'];?>(<?= $userinfo['username'];?>)</div><th>
 </tr>
-<tr class="email"><td>Email:</td><td><?= $userinfo['email'];?></tr>
+<tr class="email"><td class="userinfo-header">Email:</td><td><?= $userinfo['email'];?></tr>
   <? if(isset($userinfo['aboutYou']) && !empty($userinfo['aboutYou'])) : ?>
-<tr class="aboutYou"><td>About him:</td><td><?= $userinfo['aboutYou'];?></tr>
+<tr class="aboutYou"><td class="userinfo-header">About him:</td><td><?= $userinfo['aboutYou'];?></tr>
 <? endif; ?>
   <? if(isset($userinfo['site']) && !empty($userinfo['site'])): ?>
-<tr class="aboutYou"><td>Personal Website:</td><td><a href="<?= $userinfo['site'];?>"><?= $userinfo['site'];?></a></tr>
+<tr class="aboutYou"><tdclass="userinfo-header">Personal Website:</td><td><a href="<?= $userinfo['site'];?>"><?= $userinfo['site'];?></a></tr>
 <? endif; ?>
 </table>
 <table width=100%>
