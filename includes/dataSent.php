@@ -557,6 +557,7 @@ WHERE advid = ? order by char_name='MASTER' desc, char_name asc",$_SESSION['advi
 
                 
             case '/CHAR_SHEET':
+            case '/CHARSHEET':
                 if (count($info)<2)
                 {
                     $myData="no user or character provided";
@@ -579,10 +580,49 @@ WHERE advid = ?
                     }
                     if (count($data)!==0)
                     {
+                        if ($data[0]['charid']==0)
+                        {
+                            $myData="this is the master of the table";
+                            $command="/error";
+                            break;
+                        }
                         $sheet=$data[0]['charid'];
                         return json_encode(["resumeSheet"=>$sheet,"lastTimestamp"=>$lastTimestamp]);
                     }
-                        
+                    else
+                    {
+                        $character_name=implode(" ",$info);
+                        error_log($character_name);
+                        $data=query("
+SELECT charid
+FROM parties
+WHERE advid = ?
+AND upper(char_name) = upper(?)",$_SESSION['advid'],trim($character_name));
+
+                        if ($data===false)
+                        {
+                            $myData="problem on database, try again later";
+                            $command="/error";
+                            break;
+                        }
+                        if (count($data)!==0)
+                        {
+                            if ($data[0]['charid']==0)
+                            {
+                                $myData="this is the master of the table";
+                                $command="/error";
+                                break;
+                            }
+                            $sheet=$data[0]['charid'];
+                            return json_encode(["resumeSheet"=>$sheet,"lastTimestamp"=>$lastTimestamp]);
+                        }
+                        else
+                        {
+                            $myData="character not found";
+                            $command="/error";
+                            break;
+                        }
+                    }
                 }
                 
                 break;

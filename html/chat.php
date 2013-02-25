@@ -104,6 +104,7 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
         {
             case '/OFF':
             case '/CHAR_SHEET':
+            case '/CHARSHEET':
                 break;
 
             case '/SECRETDICE':

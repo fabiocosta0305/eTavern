@@ -317,7 +317,7 @@ label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; 
     text-align: justify;
 }
 
-.userinfo-header{
+.char_info-header{
     text-align:right;
     width: 30%;
 }

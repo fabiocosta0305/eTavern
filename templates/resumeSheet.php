@@ -36,7 +36,7 @@
 </tr>
 <? error_log(count($conditions));
   if (count($conditions)==0): ?>
-<tr> <td>This character has no conditions attached to him</td></tr>
+<tr> <td colspan=2>This character has no conditions attached to him</td></tr>
 <? else: ?>
 <tr> <th>Condition</th><th>Description</th></tr>
   <? foreach ($conditions as $condition):
