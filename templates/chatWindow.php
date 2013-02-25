@@ -20,6 +20,7 @@
       <form id="chatForm">
         <input id="lastOffTimestamp" name="lastOffTimestamp" type="hidden" value="1"/>
         <input id="lastOnTimestamp" name="lastOnTimestamp" type="hidden" value="0"/>
+        <input id="lastCommandsTimestamp" name="lastCommandsTimestamp" type="hidden" value="1"/>
         <input style="width:80%;" name="chatEntry" id="chatEntry" placeholder="Type what you want..." type="text"/>
         <button type="submit" class="btn">Speak</button>
         <a href class="charLink" onClick="return popitup('/help/chatCommands.html');">(Chat Commands)</a>

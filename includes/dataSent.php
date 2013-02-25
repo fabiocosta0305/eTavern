@@ -554,7 +554,40 @@ WHERE advid = ? order by char_name='MASTER' desc, char_name asc",$_SESSION['advi
                 $myData.="</table>";
 
                 break;
+
                 
+            case '/CHAR_SHEET':
+                if (count($info)<2)
+                {
+                    $myData="no user or character provided";
+                    $command="/error";
+                    break;
+                }
+                else
+                {
+                    $data=query("
+SELECT charid
+ FROM parties
+WHERE advid = ?
+  AND upper(username) = upper(?)",$_SESSION['advid'],$info[1]);
+
+                    if ($data===false)
+                    {
+                        $myData="problem on database, try again later";
+                        $command="/error";
+                        break;
+                    }
+                    if (count($data)!==0)
+                    {
+                        $sheet=$data[0]['charid'];
+                        return json_encode(["resumeSheet"=>$sheet,"lastTimestamp"=>$lastTimestamp]);
+                    }
+                        
+                }
+                
+                break;
+                
+
             default:
                 $myData="had tried a invalid command:".$command;
                 $command="/error";

@@ -13,6 +13,17 @@ function sendChat(){
             {
                 $(window.location).attr('href', '/');
             }
+
+            if (obj.resumeSheet)
+            {
+                var NWin = window.open('/resumeSheet.php?charid='+obj.resumeSheet,'resumeSheet','titlebar=1,scrollbars=1,height=300,width=800');
+                if (window.focus)
+                {
+                    NWin.focus();
+                }
+                return false;
+                // window.open('/resumeSheet.php?charid='+obj.resumeSheet,'resumeSheet');
+            }
            
             return false;
         },
@@ -53,26 +64,6 @@ function offChatGet(){
         }});
 }
 
-function takeFirstTimestamp(){
-    $.ajax({
-        type: 'POST',
-        data: {command: 'firstTimestamp'},
-        url: 'chat.php',
-        timeout: 2000,
-        success: function(data) {
-            var obj=jQuery.parseJSON(data);
-            $("input[name=lastOnTimestamp]").val(obj.lastTimestamp);
-            $("input[name=lastOffTimestamp]").val(obj.lastTimestamp);
-            return false;
-        },
-        complete: function(XMLHttpResponse, textStatus)
-        { 
-            return true;
-        },                            
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            return true;
-        }});
-}
 
 function onChatGet(){
     $.ajax({
@@ -119,4 +110,25 @@ function whoIsOnTable() {
               //      window.setTimeout(update, 60000);
     }
   });
+}
+
+function takeFirstTimestamp(){
+    $.ajax({
+        type: 'POST',
+        data: {command: 'firstTimestamp'},
+        url: 'chat.php',
+        timeout: 2000,
+        success: function(data) {
+            var obj=jQuery.parseJSON(data);
+            $("input[name=lastOnTimestamp]").val(obj.lastTimestamp);
+            $("input[name=lastOffTimestamp]").val(obj.lastTimestamp);
+            return false;
+        },
+        complete: function(XMLHttpResponse, textStatus)
+        { 
+            return true;
+        },                            
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            return true;
+        }});
 }

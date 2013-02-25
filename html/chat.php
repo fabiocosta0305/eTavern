@@ -38,13 +38,13 @@ if (!isset($_SESSION['advid']))
         $js=<<<FUNCTION
 $(document).ready(function() {
         
-        takeFirstTimestamp();
         whoIsOnTable();
 
         $("#chatForm").submit(sendChat);
-        setInterval(offChatGet, 2000);
-        setInterval(onChatGet, 2000);
-        setInterval(whoIsOnTable, 2000);
+        takeFirstTimestamp();
+        setInterval(offChatGet, 5000);
+        setInterval(onChatGet, 5000);
+        setInterval(whoIsOnTable, 5000);
     });
 FUNCTION;
 render ("chatWindow.php", ["title" => "Table",
@@ -103,6 +103,7 @@ select  userid,username,text,unix_timestamp(postedOn) as postedOn,command,parm
         switch(strtoupper($line['command']))
         {
             case '/OFF':
+            case '/CHAR_SHEET':
                 break;
 
             case '/SECRETDICE':
