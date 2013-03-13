@@ -321,3 +321,22 @@ label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; 
     text-align:right;
     width: 30%;
 }
+
+.agora{
+    display: inline;
+    float: left; 
+    text-align:left;
+    width:50%;
+}
+
+.aboutYou{
+    display: inline;
+    float:right;
+    text-align:right;
+    width:50%;
+}
+
+.charbar{
+    display: table-roll;
+    width:100%;
+}

@@ -8,6 +8,7 @@
         <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
         <link href="css/styles.css" rel="stylesheet"/>
         <link href="css/chat.css" rel="stylesheet"/>
+        <link href="css/agora.css" rel="stylesheet"/>
 
         <?php if (isset($title)): ?>
             <title>eTavern - Your Tabletop RPG Online: <?= htmlspecialchars($title) ?></title>

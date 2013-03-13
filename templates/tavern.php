@@ -10,8 +10,11 @@
   <div class="people">
     <div id="userinfo">
       <p class="headers">Your information:</p>
-      <div class="newChar">
-        <a href="aboutYou.php">More about you</a>
+      <div class="charlist">
+      </div>
+      <div class="charbar">
+        <span class="agora"><a href="agora.php" id="agoraInfo">Enter the Agora</a></span>
+        <span class="aboutYou"><a href="aboutYou.php">More about you</a></span>
       </div>
     </div>
     <div id="chars">

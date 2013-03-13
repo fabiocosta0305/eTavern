@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.7
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tempo de Geração: 21/02/2013 às 14:27:04
--- Versão do Servidor: 5.5.30
--- Versão do PHP: 5.4.11
+-- Host: localhost
+-- Generation Time: Mar 13, 2013 at 03:25 PM
+-- Server version: 5.5.30
+-- PHP Version: 5.4.12
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Banco de Dados: `etavern`
+-- Database: `etavern`
 --
 CREATE DATABASE `etavern` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `etavern`;
@@ -25,7 +25,7 @@ USE `etavern`;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `adv_table`
+-- Table structure for table `adv_table`
 --
 
 CREATE TABLE IF NOT EXISTS `adv_table` (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `adv_table` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `adventure`
+-- Table structure for table `adventure`
 --
 
 CREATE TABLE IF NOT EXISTS `adventure` (
@@ -58,7 +58,21 @@ CREATE TABLE IF NOT EXISTS `adventure` (
 -- --------------------------------------------------------
 
 --
--- Estrutura stand-in para visualizar `allChatLog`
+-- Table structure for table `agoraChatLog`
+--
+
+CREATE TABLE IF NOT EXISTS `agoraChatLog` (
+  `userid` bigint(20) NOT NULL,
+  `postedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `postedTo` bigint(20) NOT NULL DEFAULT '0',
+  `text` text NOT NULL,
+  KEY `postedOn` (`postedOn`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `allChatLog`
 --
 CREATE TABLE IF NOT EXISTS `allChatLog` (
 `advid` varchar(40)
@@ -69,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `allChatLog` (
 -- --------------------------------------------------------
 
 --
--- Estrutura stand-in para visualizar `char_conditions`
+-- Stand-in structure for view `char_conditions`
 --
 CREATE TABLE IF NOT EXISTS `char_conditions` (
 `username` varchar(20)
@@ -84,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `char_conditions` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `characters`
+-- Table structure for table `characters`
 --
 
 CREATE TABLE IF NOT EXISTS `characters` (
@@ -97,12 +111,12 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `history` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`char_name`,`system`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `conditions`
+-- Table structure for table `conditions`
 --
 
 CREATE TABLE IF NOT EXISTS `conditions` (
@@ -113,12 +127,12 @@ CREATE TABLE IF NOT EXISTS `conditions` (
   `goneAway` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `charid` (`charid`,`description`,`goneAway`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `loggedOn`
+-- Table structure for table `loggedOn`
 --
 
 CREATE TABLE IF NOT EXISTS `loggedOn` (
@@ -131,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `loggedOn` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `offChatLog`
+-- Table structure for table `offChatLog`
 --
 
 CREATE TABLE IF NOT EXISTS `offChatLog` (
@@ -145,7 +159,20 @@ CREATE TABLE IF NOT EXISTS `offChatLog` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `onChatLog`
+-- Table structure for table `onAgora`
+--
+
+CREATE TABLE IF NOT EXISTS `onAgora` (
+  `id` int(11) NOT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY `id_2` (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `onChatLog`
 --
 
 CREATE TABLE IF NOT EXISTS `onChatLog` (
@@ -161,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `onChatLog` (
 -- --------------------------------------------------------
 
 --
--- Estrutura stand-in para visualizar `parties`
+-- Stand-in structure for view `parties`
 --
 CREATE TABLE IF NOT EXISTS `parties` (
 `charid` bigint(20)
@@ -175,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `parties` (
 -- --------------------------------------------------------
 
 --
--- Estrutura stand-in para visualizar `used_chars`
+-- Stand-in structure for view `used_chars`
 --
 CREATE TABLE IF NOT EXISTS `used_chars` (
 `username` varchar(20)
@@ -194,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `used_chars` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -216,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para visualizar `allChatLog`
+-- Structure for view `allChatLog`
 --
 DROP TABLE IF EXISTS `allChatLog`;
 
@@ -225,7 +252,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `allC
 -- --------------------------------------------------------
 
 --
--- Estrutura para visualizar `char_conditions`
+-- Structure for view `char_conditions`
 --
 DROP TABLE IF EXISTS `char_conditions`;
 
@@ -234,7 +261,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char
 -- --------------------------------------------------------
 
 --
--- Estrutura para visualizar `parties`
+-- Structure for view `parties`
 --
 DROP TABLE IF EXISTS `parties`;
 
@@ -243,7 +270,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `part
 -- --------------------------------------------------------
 
 --
--- Estrutura para visualizar `used_chars`
+-- Structure for view `used_chars`
 --
 DROP TABLE IF EXISTS `used_chars`;
 
