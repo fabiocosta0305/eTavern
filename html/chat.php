@@ -146,7 +146,8 @@ AND characters.id = adv_table.charid and user.id=?",$line['parm']);
                
                 $data2=query("select username,  realname, char_name FROM user, adv_table, characters
 WHERE user.id = adv_table.userid
-AND characters.id = adv_table.charid and user.id=?",$line['userid']);
+AND characters.id = adv_table.charid and user.id=?
+AND adv_table.advid=?",$line['userid'],$_SESSION['advid']);
                 $row=$data2[0];
 
 

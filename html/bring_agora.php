@@ -11,7 +11,7 @@ $data=query("select distinct username, realname from onAgora, user where user.id
       return false;
   else
     foreach($data as $user):
-          $userdata='</div><div class="user">'.$user["realname"].'('.$user["username"].')</div>';
+          $userdata='</div><div class="agoraUser">'.$user["realname"].'('.$user["username"].')</div>';
 ?>
 <div class="users"><?=$userdata;?></div>
 <?php

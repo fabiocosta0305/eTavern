@@ -57,3 +57,15 @@
         float: bottom;
 }
 
+.agoraUser
+{
+    font-size:100%;
+}
+
+.agoraHeaders
+{
+    text-align: center;
+    font: 16px helvetica;
+    font-weight: bold;
+    font-variant: small-caps;
+}

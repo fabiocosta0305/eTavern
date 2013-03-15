@@ -7,6 +7,11 @@ function sendAgora(){
 
         success: function(data) {
             $("#agoraEntry").val("");
+
+            if (data=="kicked out")
+            {
+                $(window.location).attr('href', '/');
+            }
          
             return false;
         },

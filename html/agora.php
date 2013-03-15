@@ -11,7 +11,37 @@ require("../includes/config.php");
         {
             case 'dataSent':
 
-                $data=query("insert into agoraChatLog (userid,text) values (?,?)",$_SESSION['id'],$_POST['info']);
+                $myData=$_POST['info'];
+
+                // break the line into parts (first one, if preceded by a slash, is a command)
+
+                if ($_POST['info'][0]==="/")
+                {
+                    $info=explode(" ",$_POST['info']);
+
+                    error_log($info[0]);
+                    
+                    switch (strtoupper($info[0]))
+                    {
+                        case '/PART':
+
+                            error_log("Aqui!");
+                            
+                            $data=query("DELETE FROM onAgora WHERE id=?",$_SESSION['id']);
+                            
+                            echo "kicked out";
+
+                            $data=query("SELECT * FROM user WHERE id=?",$_SESSION['id']);
+                            
+                            $myData="{$data[0]['realname']}({$data[0]['username']}) had parted from the Agora";
+                            
+                            break;
+                    }
+
+                    $myData="Information: ".$myData;
+                }
+
+                $data=query("insert into agoraChatLog (userid,text) values (?,?)",$_SESSION['id'],$myData);
 
                 if ($data===false)
                     return;
@@ -34,7 +64,15 @@ require("../includes/config.php");
 
                 foreach($data as $info)
                 {
-                    $chatData.="<div class='agoraChat'><span class='agoraChatUser'>{$info['username']} :</span> {$info['text']}</div>\n";
+                    $myData=explode(" ", $info['text']);
+                    if (trim($myData[0])==="Information:")
+                    {
+                        $chatData.="<div class='agoraChat'>{$info['text']}</div>\n";
+                    }
+                    else
+                    {
+                        $chatData.="<div class='agoraChat'><span class='agoraChatUser'>{$info['username']} :</span> {$info['text']}</div>\n";
+                    }
                 }
                 
                 $data2send=["agoraData"=>$chatData,"lastTimestamp"=>$timestamp];
