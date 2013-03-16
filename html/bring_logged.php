@@ -23,8 +23,3 @@
 <?php
         endforeach;
 ?>
-<!--
-<div class="users">Teste</div>
-<div class="users">Teste2</div>
-<div class="users">Teste3</div>
---!>

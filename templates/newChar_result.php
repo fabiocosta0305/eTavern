@@ -23,7 +23,7 @@
      </form>
      </div>
      <div class="charButton">
-     <form action="deleteChar.php" method="post">
+     <form action="deleteChar.php" method="post" onClick="if (!confirm('Do you really want to erase this character?')) return false;">
      <input type="hidden" name="userid" value="<?= $id;?>"/>
      <input type="hidden" name="sheetid" value="<?= $data['id'];?>"/>
      <button type="submit" class="btn">Delete it!</button>
