@@ -11,7 +11,7 @@ if (isset($_SESSION['advid']))
     
     if ($query === false)
         apologize("We had some problem on the database! Please wait or contact the administrator!");
-    
+
     if ($query === 0)
     {
         
@@ -31,6 +31,30 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET")
     
     if (!isset($_GET["adventure"]))
         apologize("No adventure chosen!");
+
+    // If this guy was on this adventure and had crashed his browser, get him back
+    
+  $data=query("
+select *
+  from parties
+ where userid=?
+   and advid=?",$_SESSION['id'],$_GET["adventure"]);
+
+    if ($data===false)
+        apologize("We had some problem on the database! Please wait or contact the administrator!");
+
+    if (count($data)===1)
+    {
+        error_log("Aqui!");
+        // create a new session variable for the adventure
+        $_SESSION['advid']=$_GET['adventure'];
+
+        if ($data[0]['charid']!=0)
+            $_SESSION['charid']=$data[0]['charid'];
+
+        // redirect hum back again for this to make him go back to the adventure
+        redirect("/enter_table.php");
+    }
 
     // Double check if the adventure exists
 

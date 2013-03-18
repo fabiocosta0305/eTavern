@@ -236,8 +236,44 @@ AND lower(char_name) =  lower(?)",$_SESSION['advid'],$parm);
                 $data=query("insert into onChatLog (userid,text,command,parm,advid) VALUES (?,?,?,?,?)",
                             $user, "$user parted from the adventure!", $command, $parm, $advid);
 
-                part_table();
+                /**
+                 * A special situation - when the master parts from the table, the idea is that he is ending the adventure.
+                 *
+                 * So, if the master parts, all the players still on table are kicked from the table, as an way to say
+                 * that people had ended their adventure
+                 */
+
+                if (!isset($_SESSION['charid']))  // remember masters has no charid associated on the table, just advid
+                {
+                    // obtains the still logged party
+                    $party2kick=query("
+SELECT userid, username
+FROM parties
+WHERE advid =  ?
+  AND charid <> 0
+AND stillOn",$advid);
+
+                    // send a /kick command for each player still on the table
+                    foreach($party2kick as $player)
+                    {
+                        /* $user2kick=$player['username']; */
+                        /* error_log($player['username']); */
+                        /* error_log($user2kick); */
+                        /* error_log("/kick $user2kick Adventure ended by the master"); */
+                        /* dataSent("/kick $user2kick Adventure ended by the master",$user,$advid); */
+
+                        $kick_command="/kick ".$player['username']." adventure ended by the master";
+
+                        error_log($kick_command);
+                        
+                        $null=dataSent($kick_command,$user,$advid);
+                        
+                    }
+                    
+                }
                 
+                part_table();
+
                 return json_encode(["end"=>true,"lastTimestamp"=>$lastTimestamp]);
                 break;
 
