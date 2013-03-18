@@ -12,8 +12,6 @@
           return true;
       }
 
-  // TODO: Setting the order (by realname or by character name - master is always firts)
-
 $data=query("select * from parties where advid=? order by char_name='MASTER' desc, char_name asc",$_SESSION['advid']);
 
   if ($data===false)
@@ -34,8 +32,3 @@ $data=query("select * from parties where advid=? order by char_name='MASTER' des
 <?php
         endforeach;
 ?>
-<!--
-<div class="users">Teste</div>
-<div class="users">Teste2</div>
-<div class="users">Teste3</div>
---!>

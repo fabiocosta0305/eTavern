@@ -285,4 +285,20 @@ SELECT DISTINCT adventure.advid, adv_table.userid, stillOn, ended
         }
 }
 
+function cleanAgora()
+{
+
+    $time=query("
+SELECT DISTINCT id
+  FROM onAgora
+ WHERE lasttime < ( NOW( ) -60 *3 )");
+
+    if ($time===false)
+        apologize("Problems on database. Please contact the administrator!");
+
+    if (count($time)!==0)
+        foreach($time as $table_info)
+            $info=query("delete from onAgora where id=?",$table_info['id']);
+}
+
 ?>

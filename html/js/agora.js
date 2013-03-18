@@ -8,11 +8,6 @@ function sendAgora(){
         success: function(data) {
             $("#agoraEntry").val("");
 
-            if (data=="kicked out")
-            {
-                $(window.location).attr('href', '/');
-            }
-         
             return false;
         },
          
@@ -56,15 +51,15 @@ function whoIsOnAgora() {
     url: 'bring_agora.php',
     timeout: 2000,
     success: function(data) {
-        // if (data=='kicked out')
-        // {
-        //     window.location.href='/';
-        // }
-        // else
-        // {
+        if (data=='kicked out')
+        {
+            window.location.href='/';
+        }
+        else
+        {
             $("#agoraPeople").html(data);
             window.setTimeout(whoIsOnAgora, 2000);
-        // }
+        }
     // },
     //   error: function (XMLHttpRequest, textStatus, errorThrown) {
     //           //      $("#notice_div").html('Timeout contacting server..');

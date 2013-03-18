@@ -3,6 +3,10 @@
 // configuration
 require("../includes/config.php"); 
 
+// old people will get out (>3 minutes of inactivity);
+
+cleanAgora();
+
 // if form was submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
@@ -42,6 +46,11 @@ require("../includes/config.php");
                 }
 
                 $data=query("insert into agoraChatLog (userid,text) values (?,?)",$_SESSION['id'],$myData);
+
+                if ($data===false)
+                    return;
+
+                $data=query("replace into onAgora values (?,now())");
 
                 if ($data===false)
                     return;

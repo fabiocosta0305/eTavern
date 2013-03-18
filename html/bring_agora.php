@@ -1,9 +1,18 @@
 <?php
 
   // configuration
+
   require("../includes/config.php");
 
-  // TODO: Setting the order (by realname or by character name - master is always firts)
+  // check if the user is still on the agora or had timed out
+
+  $kick=query("select * from onAgora where id=?",$_SESSION['id']);
+
+  if (count($kick)===0)
+      {
+          echo "kicked out";
+          return true;
+      }
 
 $data=query("select distinct user.id as userid, username, realname from onAgora, user where user.id=onAgora.id order by realname, username");
 
