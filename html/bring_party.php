@@ -18,13 +18,14 @@ $data=query("select * from parties where advid=? order by char_name='MASTER' des
       return false;
   else
     foreach($data as $user):
+      $img=get_gravatar($user['email'],32);
       if($user['userid']==$_SESSION['id'])
-          $userdata='<div class="users"><div class="character">'.$user["char_name"].'</div><div class="user">'.$user["realname"].'('.$user["username"].')</div>';
+          $userdata='<div class="users"><span class="avatar"><img src="'.$img.'"></span><div class="character">'.$user["char_name"].'</div><div class="user">'.$user["realname"].'('.$user["username"].')</div>';
       else
       {
           $hyperlink="/userdata.php?id={$user['userid']}";
           $userdata='<a href onClick="return userdata(\''.$hyperlink.'\');">';
-          $userdata.='<div class="users"><div class="character">'.$user["char_name"].'</div><div class="user">'.$user["realname"].'('.$user["username"].')</div></a>';
+          $userdata.='<div class="users"><span class="avatar"><img src="'.$img.'"></span><div class="character">'.$user["char_name"].'</div><div class="user">'.$user["realname"].'('.$user["username"].')</div></a>';
 
       }
 ?>

@@ -11,6 +11,9 @@
     <div id="userinfo">
       <p class="headers">Your information:</p>
       <div class="charlist">
+        <div class="avatar">
+          <img src="<?= $img;?>"/>
+        </div>
       </div>
       <div class="charbar">
         <span class="agora"><a href="agora.php" id="agoraInfo">Enter the Agora</a></span>

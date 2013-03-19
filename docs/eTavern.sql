@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2013 at 03:25 PM
+-- Generation Time: Mar 19, 2013 at 02:07 PM
 -- Server version: 5.5.30
 -- PHP Version: 5.4.12
 
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `history` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`char_name`,`system`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
 
 -- --------------------------------------------------------
 
@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `parties` (
 ,`userid` bigint(20)
 ,`username` varchar(20)
 ,`realname` varchar(60)
+,`email` varchar(30)
 ,`advid` varchar(40)
 ,`stillOn` tinyint(1)
 );
@@ -265,7 +266,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `char
 --
 DROP TABLE IF EXISTS `parties`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`id` AS `charid`,`characters`.`char_name` AS `char_name`,`user`.`id` AS `userid`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
+CREATE ALGORITHM=UNDEFINED DEFINER=`etavern`@`%` SQL SECURITY DEFINER VIEW `parties` AS select `characters`.`id` AS `charid`,`characters`.`char_name` AS `char_name`,`user`.`id` AS `userid`,`user`.`username` AS `username`,`user`.`realname` AS `realname`,`user`.`email` AS `email`,`adventure`.`advid` AS `advid`,`adv_table`.`stillOn` AS `stillOn` from (((`adventure` join `user`) join `characters`) join `adv_table`) where ((`adventure`.`advid` = `adv_table`.`advid`) and `adv_table`.`stillOn` and (`adv_table`.`userid` = `user`.`id`) and (`characters`.`id` = `adv_table`.`charid`)) order by (`characters`.`id` = 0) desc;
 
 -- --------------------------------------------------------
 

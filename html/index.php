@@ -7,8 +7,9 @@
 
   $sheets=query("select * from characters where userid=? order by char_name,system",$_SESSION["id"]);
 
-  $userinfo=query("select username,realname from user where id=?",$_SESSION["id"]);
+  $userinfo=query("select username,realname,email from user where id=?",$_SESSION["id"]);
 
+  // generate some JavaScript it'll be used on the index
   
   $js_function=<<<FUNCTION
 $(document).ready(function() {
@@ -17,6 +18,10 @@ $(document).ready(function() {
 });
 FUNCTION;
 
+// try to retrieve a avatar based on Gravatar system
+
+$img=get_gravatar($userinfo[0]['email'],80);
+
   // render tavern
 
   render("tavern.php", ["title" => "Your Tavern - ".$_SESSION["realname"],
@@ -24,5 +29,6 @@ FUNCTION;
                         "username" => $userinfo[0]['username'],
                         "sheets" => $sheets,
                         "jquery"=>$js_function,
-                        "extraJS"=>["js/whoIsOn.js"]]);
+                        "extraJS"=>["js/whoIsOn.js"],
+                        "img"=>$img]);
 ?>

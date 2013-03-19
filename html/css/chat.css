@@ -146,3 +146,8 @@ th
     font-variant: small-caps;
     align: center;
 }
+
+.avatar
+{
+    float: left;
+}
