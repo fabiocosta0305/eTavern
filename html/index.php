@@ -20,7 +20,9 @@ FUNCTION;
 
 // try to retrieve a avatar based on Gravatar system
 
-$img=get_gravatar($userinfo[0]['email'],80);
+// NOTE: I hardcoded the icon for the "default" user, pointing to my GitHub, because of restrictions from the free hosting
+
+$img=get_gravatar($userinfo[0]['email'],80,"https://raw.github.com/hufflepuffbr/eTavern/master/html/img/d20_80.jpg");
 
   // render tavern
 

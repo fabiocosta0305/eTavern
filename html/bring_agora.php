@@ -20,7 +20,7 @@ $data=query("select distinct user.id as userid, username, realname, email from o
       return false;
   else
     foreach($data as $user):
-      $img=get_gravatar($user['email'],32);
+      $img=get_gravatar($user['email'],32,"https://raw.github.com/hufflepuffbr/eTavern/master/html/img/d20_32.jpg");
   $userdata="<img src='$img'/>";
       if($user['userid']==$_SESSION['id'])
           $userdata.=$user["realname"];

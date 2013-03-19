@@ -18,7 +18,7 @@ $data=query("select * from parties where advid=? order by char_name='MASTER' des
       return false;
   else
     foreach($data as $user):
-      $img=get_gravatar($user['email'],32);
+      $img=get_gravatar($user['email'],32,"https://raw.github.com/hufflepuffbr/eTavern/master/html/img/d20_32.jpg");
       if($user['userid']==$_SESSION['id'])
           $userdata='<div class="users"><span class="avatar"><img src="'.$img.'"></span><div class="character">'.$user["char_name"].'</div><div class="user">'.$user["realname"].'('.$user["username"].')</div>';
       else
