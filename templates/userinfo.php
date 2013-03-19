@@ -1,9 +1,9 @@
 <div class="userdata">
 <table width=100%>
 <tr>
-  <th colspan=2><div class="username"><?= $userinfo['realname'];?>(<?= $userinfo['username'];?>)</div><th>
+  <th colspan=3><div class="username"><?= $userinfo['realname'];?>(<?= $userinfo['username'];?>)</div><th>
 </tr>
-<tr class="email"><td class="userinfo-header">Email:</td><td><?= $userinfo['email'];?></tr>
+<tr class="email"><td rowspan=3><img src="<?=$avatar;?>"></td><td class="userinfo-header">Email:</td><td><?= $userinfo['email'];?></tr>
   <? if(isset($userinfo['aboutYou']) && !empty($userinfo['aboutYou'])) : ?>
 <tr class="aboutYou"><td class="userinfo-header">About him:</td><td><?= $userinfo['aboutYou'];?></tr>
 <? endif; ?>

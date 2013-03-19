@@ -285,7 +285,7 @@ label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; 
 	padding: 5px;
 	border: 2px solid #DDDDDD;
 	border-radius: 8px;
-        width: 35%;
+        width: 33%;
         height: 300px;
 	text-align: left;
         display: table;
@@ -339,4 +339,9 @@ label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; 
 .charbar{
     display: table-roll;
     width:100%;
+}
+
+.avatar
+{
+    float: left;
 }
